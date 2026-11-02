@@ -11,8 +11,8 @@ BOILERPLATE_SIM = 0.85     # cosine used to detect shared template text
 BOILERPLATE_MIN_DOCS = 3   # chunk similar in >= 3 OTHER files = boilerplate
 
 # AI score = 100 * (0.6 * ppl_part + 0.4 * burst_part), see ai_detect.py
-AI_PPL_LOW, AI_PPL_HIGH = 20.0, 80.0     # perplexity at/below LOW -> looks AI
-AI_CV_LOW, AI_CV_HIGH = 0.2, 0.8         # burstiness at/below LOW -> looks AI
+AI_PPL_LOW, AI_PPL_HIGH = 120.0, 400.0   # calibrated on warm-context sentence ppl (was 20/80)
+AI_CV_LOW, AI_CV_HIGH = 0.3, 0.9         # cold-start-free sentence ppl CV (was 0.2/0.8)
 AI_MIN_SENTENCES = 5
 
 RISK_HIGH = {"peer": 40.0, "external": 40.0, "ai": 80.0}

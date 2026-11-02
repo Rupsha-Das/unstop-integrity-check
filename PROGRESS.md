@@ -1,6 +1,6 @@
 # PROGRESS
 
-STATUS: next=4.1 | blocked=no
+STATUS: next=5.1 | blocked=no
 
 Rules: one step → run V → matches E? tick + 1 log line : fix (3 fails → STOP-STUCK). Commit after each phase. `R` = `uv run`.
 
@@ -31,7 +31,7 @@ Rules: one step → run V → matches E? tick + 1 log line : fix (3 fails → ST
 - [x] 3.4 external matching.  V: same as 3.2  E: sub08 ↔ quick_commerce.txt ≥0.9; others none (if not, log it, don't hide it)
 
 ### 4 AI (SPEC §5.5)
-- [ ] 4.1 V: `R python -m integrity.ai_detect sample_submissions`  E: sub06 highest and ≥50; most others <50.
+- [x] 4.1 V: `R python -m integrity.ai_detect sample_submissions`  E: sub06 highest and ≥50; most others <50.
   Fails → you may change only AI_PPL_*/AI_CV_* once; log old→new. Still failing → keep it, it becomes a failure case.
 
 ### 5 Report + CLI (SPEC §5.6–5.7)
@@ -52,6 +52,8 @@ Rules: one step → run V → matches E? tick + 1 log line : fix (3 fails → ST
 - av 19 removed `metadata_errors`; faster-whisper 1.2.1 fails to open audio -> we decode to 16 kHz float32 numpy with plain av and pass to transcribe (kept av 19; av<15 has no Windows wheel).
 - Sub08 built without TEMPLATE (spec row 8 => body only); QUICK_PARA kept as its own paragraph.
 - Whisper transcribe uses beam_size=5 + domain initial_prompt (helps proper nouns); thresholds untouched.
+- ai_detect: sentences scored with warm context (previous sentence prompts the LM, prefix masked); cold-start scoring inflated ppl ~10x (250-1400 vs intended 20-80).
+- AI calibration (once, old->new): AI_PPL_LOW/HIGH 20/80 -> 120/400; AI_CV_LOW/HIGH 0.2/0.8 -> 0.3/0.9. Result: sub06 76.3 highest; 9 of 10 others <50 (sub08 66.2, realistic: copied encyclopedia paragraph is uniform).
 - PyMuPDF 2.0 merges whole reportlab pages into one text block -> PDF granularity = page-level paragraphs; chunking still ≤120 words.
 
 ## Log
@@ -67,6 +69,7 @@ Rules: one step → run V → matches E? tick + 1 log line : fix (3 fails → ST
 3.2 ok: 02-03 1.00, 04-05 1.00, 01-pitch01 0.98, 07-09 0.58; boilerplate 1-2 only in sub01-05
 3.3 ok: best 04-05 body pair .95 cos / jaccard 0.48
 3.4 ok: sub08-quick_commerce 0.90, no other external
+4.1 ok: sub06 76.3 top + >=50; 9/10 others <50
 
 ## STOP messages (send to the user, then wait)
 - **STOP-UV:** "Please install uv, then reply 'done': `curl -LsSf https://astral.sh/uv/install.sh | sh` (Arch: `sudo pacman -S uv`)"
