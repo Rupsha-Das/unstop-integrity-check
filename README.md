@@ -1,0 +1,119 @@
+# GreenCart Integrity Check (Multimodal Plagiarism Detection Engine)
+
+A CLI that takes a folder of submissions (PDF · DOCX · MP4), checks each one for
+plagiarism against every other submission and against a small reference corpus,
+scores AI-likelihood, and writes one JSON + one Markdown report per file plus a
+summary — designed so a judge can review 13 files in ~3 minutes.
+
+## What it does
+
+- Extracts text (PyMuPDF / python-docx) and speech (faster-whisper, `tiny.en`,
+  transcribes the audio track of each MP4 into time-stamped segments).
+- Chops every document into passages (chunks) of ≤120 words that never cross a
+  paragraph or video segment, each keeping its page / paragraph number / timestamp.
+- Embeds everything with `sentence-transformers/all-MiniLM-L6-v2` (384 numbers),
+  builds a FAISS `IndexFlatIP`, and for every chunk finds its nearest neighbours
+  **in other files only**:
+  - same file → ignored,
+  - similar to chunks in ≥3 other files → "common template/boilerplate", ignored
+    for score and shown under *Ignored*,
+  - similarity ≥ 0.80 → a match (peer), or vs the reference corpus (external).
+    A match between different modalities is a *cross-modal* match (speech vs text).
+- Scores AI-likelihood with distilgpt2: mean warm-context sentence perplexity +
+  burstiness (coefficient of variation) → 0–100 %.
+- Writes `reports/<file>.json`, `reports/<file>.md` and `reports/summary.*`,
+  plus `reports/evaluation_results.md`.
+
+## Setup
+
+```bash
+uv sync        # creates .venv and installs everything (CPU-only torch)
+```
+
+Model weights (MiniLM ~90 MB, whisper tiny.en ~75 MB, distilgpt2 ~350 MB) are
+downloaded automatically on first run — no API keys needed.
+
+## Run
+
+```bash
+uv run run_integrity_check.py --input_dir ./sample_submissions --output_dir ./reports
+uv run evaluate.py            # optional: compares reports to the dataset manifest
+uv run pytest -q              # optional: 3 core tests
+```
+
+## How it works
+
+```text
+sample_submissions/*.pdf|docx|mp4
+        │
+        ▼
+extract:  file ──► paragraph units (page no. / paragraph no. / speech timestamps)
+          broken/empty/silent file ──► status "skipped" + reason (never crashes)
+        ▼
+chunking: units ──► ≤120-word chunks (1-sentence overlap, video segments packed)
+        ▼
+matching: chunks ──► 384-d embeddings ──► FAISS IndexFlatIP
+          per chunk: neighbours in other files; ≥0.80 = match
+          similar in ≥3 other files = boilerplate → ignored for scoring
+        ▼
+ai:       distilgpt2 perplexity + burstiness ──► AI likelihood %
+        ▼
+report:   reports/<file>.json + .md + summary
+```
+
+All thresholds and model names live in `integrity/config.py`.
+
+## Scores
+
+Each report has `peer_similarity_percentage` (% of scorable passages matching
+another submission), `external_similarity_percentage` (% matching the reference
+corpus) and `ai_generated_probability`. Risk = HIGH/MEDIUM/LOW from the
+configured cut-offs: peer/external 40 = HIGH, 15 = MEDIUM, ai 80 = HIGH,
+50 = MEDIUM (see `integrity/config.py`).
+
+## Assumptions
+
+- Chunks are ≤120 words (~160 tokens): small enough for precise citations
+  (page numbers, timestamps, paragraph indices).
+- Overlap is flagged on **both** sides of a copy pair (sub02 and sub03 both get
+  reports); deciding who copied from whom is a human decision. The manifest in
+  `sample_submissions/dataset_manifest.json` carries the ground-truth labels.
+- DOCX has no real pages, so citations use paragraph numbers.
+- `reference_corpus/` is a small simulated "web": 6 neutral encyclopedia-style
+  texts on quick-commerce topics.
+- The AI score is a **heuristic** (perplexity + burstiness), not a trained
+  detector; see EVALUATION.md §3 for where it fails.
+- Matching is chunk-level (nearest neighbours); near-duplicate paragraphs
+  spanning a chunk boundary are caught by the 1-sentence overlap.
+
+## Scaling (rough estimates)
+
+- **Flow:** upload → object storage (S3) → one queue message per file (Redis +
+  Celery, or SQS) → worker pools per stage: extract (CPU) → transcribe (GPU) →
+  embed (GPU batch) → index upsert → score → report. Each job is keyed by the
+  file's SHA-256 so retries are safe and exact duplicates are caught before any
+  ML runs.
+- **Compute:** the heaviest stage is ASR: 10k pitches × 3 min ≈ 500 h of audio;
+  faster-whisper `small` on a T4 runs at roughly 30–60× real time ≈ 10–15
+  GPU-hours (estimate; spot instances are cheap). 10k docs × ~40 chunks =
+  ~400k chunks; MiniLM on GPU embeds thousands/s → a few minutes.
+- **Vector DB:** 400k × 384 floats ≈ 0.6 GB — a flat index still fits, but
+  all-vs-all search is O(n²); production should use HNSW (Qdrant or pgvector,
+  M=16, ef_search≈128) for ~95–99% recall at millisecond queries, partitioned by
+  `challenge_id` (files compared only within one competition + the reference
+  corpus). IVF-PQ only past ~10M chunks.
+- **Boilerplate at scale:** organisers upload the official prompt once; it is
+  embedded and auto-excluded. The "appears in ≥ N files" rule scales N with
+  corpus size (e.g. 1%).
+- **Bottlenecks:** (1) ASR GPU time, (2) the perplexity model (could become a
+  small fine-tuned classifier), (3) report generation is trivial. Target:
+  report within ~2 min of upload; full cross-check re-runs after the deadline.
+- **Reliability:** dead-letter queue for corrupt files, per-stage retries,
+  metrics on skip rate and queue depth.
+- **Cost (rough):** tens of dollars of spot GPU per 10k-submission challenge;
+  storage negligible.
+
+## AI-use disclosure
+
+Planning, boilerplate and debugging helped by AI assistants (Claude, GLM); I
+reviewed all design decisions.

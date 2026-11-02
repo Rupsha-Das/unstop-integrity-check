@@ -1,6 +1,6 @@
 # PROGRESS
 
-STATUS: next=6.1 | blocked=no
+STATUS: next=none | done | blocked=no
 
 Rules: one step → run V → matches E? tick + 1 log line : fix (3 fails → STOP-STUCK). Commit after each phase. `R` = `uv run`.
 
@@ -41,10 +41,10 @@ Rules: one step → run V → matches E? tick + 1 log line : fix (3 fails → ST
 - [x] 5.4 `tests/test_core.py`: no same-doc match; 3-doc chunk = boilerplate; 0-byte file → skipped.  V: `R pytest -q`  E: `3 passed`
 
 ### 6 Eval + docs
-- [ ] 6.1 `evaluate.py` (SPEC §7).  V: `R evaluate.py`  E: 3 confusion tables, pairs x/4, template x/5, degraded x/2
-- [ ] 6.2 EVALUATION.md: tables, the jaccard-vs-cosine number, ≥2 REAL failures (ideas in SPEC §9), trade-offs (MiniLM small/CPU vs accuracy; Flat now, HNSW at scale)
-- [ ] 6.3 README.md: what it does · setup `uv sync` · run (1 cmd) · how it works (SPEC §0) · scores · Assumptions (120-word chunks; both sides of a copy flagged; DOCX uses paragraph no.; reference_corpus = simulated web; AI = heuristic) · Scaling (SPEC §8) · AI-use disclosure ("Planning, boilerplate and debugging helped by AI assistants (Claude, GLM); I reviewed all design decisions.")
-- [ ] 6.4 V: `rm -rf reports && R run_integrity_check.py --input_dir ./sample_submissions --output_dir ./reports && R evaluate.py && R pytest -q`  E: all pass. Commit → STOP-DONE.
+- [x] 6.1 `evaluate.py` (SPEC §7).  V: `R evaluate.py`  E: 3 confusion tables, pairs x/4, template x/5, degraded x/2
+- [x] 6.2 EVALUATION.md: tables, the jaccard-vs-cosine number, ≥2 REAL failures (ideas in SPEC §9), trade-offs (MiniLM small/CPU vs accuracy; Flat now, HNSW at scale)
+- [x] 6.3 README.md: what it does · setup `uv sync` · run (1 cmd) · how it works (SPEC §0) · scores · Assumptions (120-word chunks; both sides of a copy flagged; DOCX uses paragraph no.; reference_corpus = simulated web; AI = heuristic) · Scaling (SPEC §8) · AI-use disclosure ("Planning, boilerplate and debugging helped by AI assistants (Claude, GLM); I reviewed all design decisions.")
+- [x] 6.4 V: `rm -rf reports && R run_integrity_check.py --input_dir ./sample_submissions --output_dir ./reports && R evaluate.py && R pytest -q`  E: all pass. Commit → STOP-DONE.
 
 ## Decisions
 - reportlab 5.x: PageHeader/Footer callbacks go on `doc.build()`, not the constructor (constructor kwarg silently ignored).
@@ -77,6 +77,10 @@ Rules: one step → run V → matches E? tick + 1 log line : fix (3 fails → ST
 5.2 ok: all json report keys set()
 5.3 ok: pitch01->sub01 page2+ts; sub03 HIGH exact-copy; sub07 LOW; template Ignored
 5.4 ok: pytest 3 passed
+6.1 ok: 3 tables; pairs 4/4; template 5/5; degraded 2/2; ai P=0.5 (sub08 FP)
+6.2 ok: EVALUATION.md written (tables, jaccard .48 vs cos .95, 4 failures, trade-offs)
+6.3 ok: README.md written
+6.4 ok: clean rerun; run ok, eval ok, pytest 3 passed
 
 ## STOP messages (send to the user, then wait)
 - **STOP-UV:** "Please install uv, then reply 'done': `curl -LsSf https://astral.sh/uv/install.sh | sh` (Arch: `sudo pacman -S uv`)"
