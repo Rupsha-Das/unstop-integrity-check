@@ -26,28 +26,49 @@ def extract_pdf(path):
     import fitz
     doc = fitz.open(path)
     npages = doc.page_count
+    # lines per page: (y0, y1, text) sorted top-down
     pages = []
     for i, page in enumerate(doc, 1):
-        blocks = [" ".join(b[4].split()) for b in page.get_text("blocks") if b[4].strip()]
-        pages.append((i, blocks))
+        lines = []
+        for b in page.get_text("dict")["blocks"]:
+            for line in b.get("lines", []):
+                text = " ".join("".join(s["text"] for s in line["spans"]).split())
+                if text:
+                    lines.append((line["bbox"][1], line["bbox"][3], text))
+        lines.sort()
+        pages.append((i, lines))
     doc.close()
 
     def key_of(t):
         return "".join(c for c in t.lower() if not c.isdigit()).strip()
 
     page_freq = {}
-    for _, blocks in pages:
-        for k in {key_of(t) for t in blocks}:
+    for _, lines in pages:
+        for k in {key_of(t) for _, _, t in lines}:
             page_freq[k] = page_freq.get(k, 0) + 1
     units = []
-    for pageno, blocks in pages:
-        for text in blocks:
+    for pageno, lines in pages:
+        # drop page-number lines and lines repeating on more than half the pages
+        kept = []
+        for y0, y1, text in lines:
             if PAGE_ONLY_RE.match(text):
                 continue
-            # key appearing on strictly more than half the pages = header/footer
             if npages >= 2 and page_freq[key_of(text)] > 0.5 * npages:
                 continue
-            units.append({"text": text, "page": pageno})
+            kept.append((y0, y1, text))
+        # group lines into paragraph units on a vertical gap well above the
+        # in-paragraph leading (~0.4pt); paragraph spaceAfter=12 gives ~12.4pt gaps
+        group = []
+        prev_y1 = None
+        for y0, y1, text in kept:
+            height = y1 - y0
+            if prev_y1 is not None and y0 - prev_y1 > 0.5 * height + 2:
+                units.append({"text": " ".join(group), "page": pageno})
+                group = []
+            group.append(text)
+            prev_y1 = y1
+        if group:
+            units.append({"text": " ".join(group), "page": pageno})
     return units
 
 

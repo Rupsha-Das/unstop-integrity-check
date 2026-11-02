@@ -248,7 +248,8 @@ MANIFEST = {
 # --------------------------------------------------------------- writers ---
 
 def write_pdf(name, flowables):
-    style = ParagraphStyle("body", fontName="Helvetica", fontSize=10.5, leading=14)
+    style = ParagraphStyle("body", fontName="Helvetica", fontSize=10.5, leading=14,
+                           spaceAfter=10)
 
     def on_page(canvas, doc):
         canvas.saveState()
@@ -291,7 +292,8 @@ def make_silent_mp4(name):
 def main():
     OUT.mkdir(exist_ok=True)
 
-    S = ParagraphStyle("body", fontName="Helvetica", fontSize=10.5, leading=14)
+    S = ParagraphStyle("body", fontName="Helvetica", fontSize=10.5, leading=14,
+                       spaceAfter=12)
 
     def P(t):
         return Paragraph(t, S)

@@ -38,7 +38,8 @@ def find_matches(query_chunks, query_vecs, target_chunks, target_index,
     k = min(SEARCH_K, len(target_chunks))
     if k == 0:
         for c in query_chunks:
-            results[c["chunk_id"]] = {"is_boilerplate": False, "matches": []}
+            results[c["chunk_id"]] = {"is_boilerplate": False, "shared_with_n_files": 0,
+                                      "matches": []}
         return results
     scores, ids = target_index.search(np.ascontiguousarray(query_vecs), k)
     for i, chunk in enumerate(query_chunks):
@@ -54,6 +55,7 @@ def find_matches(query_chunks, query_vecs, target_chunks, target_index,
                 best[t["doc_id"]] = (t, s)
         results[chunk["chunk_id"]] = {
             "is_boilerplate": is_boiler,
+            "shared_with_n_files": len(boiler_docs),
             "matches": sorted(best.values(), key=lambda m: -m[1]),
         }
     return results

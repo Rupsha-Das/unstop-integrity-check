@@ -1,0 +1,21 @@
+{
+  "document_id": "sub09_india.docx",
+  "status": "ok",
+  "skip_reason": null,
+  "total_integrity_risk": "LOW",
+  "scores": {
+    "peer_similarity_percentage": 0.0,
+    "external_similarity_percentage": 0.0,
+    "ai_generated_probability": 40.8
+  },
+  "peer_matches": [],
+  "multimodal_matches": [],
+  "external_matches": [],
+  "excluded_boilerplate": [],
+  "ai_details": {
+    "perplexity": 232.6,
+    "burstiness": 0.83,
+    "note": ""
+  },
+  "explanations": "No other submission matches (5 passages checked). No external source matches. AI likelihood 41% (perplexity 232.6, burstiness 0.83)."
+}

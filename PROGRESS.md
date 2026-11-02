@@ -1,6 +1,6 @@
 # PROGRESS
 
-STATUS: next=5.1 | blocked=no
+STATUS: next=6.1 | blocked=no
 
 Rules: one step → run V → matches E? tick + 1 log line : fix (3 fails → STOP-STUCK). Commit after each phase. `R` = `uv run`.
 
@@ -35,10 +35,10 @@ Rules: one step → run V → matches E? tick + 1 log line : fix (3 fails → ST
   Fails → you may change only AI_PPL_*/AI_CV_* once; log old→new. Still failing → keep it, it becomes a failure case.
 
 ### 5 Report + CLI (SPEC §5.6–5.7)
-- [ ] 5.1 V: `rm -rf reports; R run_integrity_check.py --input_dir ./sample_submissions --output_dir ./reports && ls reports|wc -l`  E: 28, no traceback
-- [ ] 5.2 V: `R python -c "import json,glob;k={'document_id','total_integrity_risk','scores','peer_matches','multimodal_matches','explanations'};[print(f,k-set(json.load(open(f)))) for f in glob.glob('reports/*.json') if 'summary' not in f]"`  E: all `set()`
-- [ ] 5.3 V: `cat reports/pitch01_kilo.mp4.md reports/sub03_charlie.docx.md reports/sub07_golf.pdf.md`  E: pitch01 → sub01 with `00:00:..` + page 2; sub03 HIGH near-exact; sub07 LOW, no matches; the template sits under "Ignored" in sub01–05
-- [ ] 5.4 `tests/test_core.py`: no same-doc match; 3-doc chunk = boilerplate; 0-byte file → skipped.  V: `R pytest -q`  E: `3 passed`
+- [x] 5.1 V: `rm -rf reports; R run_integrity_check.py --input_dir ./sample_submissions --output_dir ./reports && ls reports|wc -l`  E: 28, no traceback
+- [x] 5.2 V: `R python -c "import json,glob;k={'document_id','total_integrity_risk','scores','peer_matches','multimodal_matches','explanations'};[print(f,k-set(json.load(open(f)))) for f in glob.glob('reports/*.json') if 'summary' not in f]"`  E: all `set()`
+- [x] 5.3 V: `cat reports/pitch01_kilo.mp4.md reports/sub03_charlie.docx.md reports/sub07_golf.pdf.md`  E: pitch01 → sub01 with `00:00:..` + page 2; sub03 HIGH near-exact; sub07 LOW, no matches; the template sits under "Ignored" in sub01–05
+- [x] 5.4 `tests/test_core.py`: no same-doc match; 3-doc chunk = boilerplate; 0-byte file → skipped.  V: `R pytest -q`  E: `3 passed`
 
 ### 6 Eval + docs
 - [ ] 6.1 `evaluate.py` (SPEC §7).  V: `R evaluate.py`  E: 3 confusion tables, pairs x/4, template x/5, degraded x/2
@@ -54,6 +54,9 @@ Rules: one step → run V → matches E? tick + 1 log line : fix (3 fails → ST
 - Whisper transcribe uses beam_size=5 + domain initial_prompt (helps proper nouns); thresholds untouched.
 - ai_detect: sentences scored with warm context (previous sentence prompts the LM, prefix masked); cold-start scoring inflated ppl ~10x (250-1400 vs intended 20-80).
 - AI calibration (once, old->new): AI_PPL_LOW/HIGH 20/80 -> 120/400; AI_CV_LOW/HIGH 0.2/0.8 -> 0.3/0.9. Result: sub06 76.3 highest; 9 of 10 others <50 (sub08 66.2, realistic: copied encyclopedia paragraph is uniform).
+- PDF paragraphs: PyMuPDF 2.0 "blocks" merges whole pages; re-group lines by y-gap (paragraph spaceAfter=12 in generated PDFs, gap threshold 0.5*lineheight+2) to get paragraph units.
+- 1-page PDFs keep drawn header as a unit (spec filter only for pages>=2); dropped later by CHUNK_MIN_WORDS.
+- pytest needs pythonpath=["."] in pyproject (test module import).
 - PyMuPDF 2.0 merges whole reportlab pages into one text block -> PDF granularity = page-level paragraphs; chunking still ≤120 words.
 
 ## Log
@@ -70,6 +73,10 @@ Rules: one step → run V → matches E? tick + 1 log line : fix (3 fails → ST
 3.3 ok: best 04-05 body pair .95 cos / jaccard 0.48
 3.4 ok: sub08-quick_commerce 0.90, no other external
 4.1 ok: sub06 76.3 top + >=50; 9/10 others <50
+5.1 ok: 28 files, no traceback
+5.2 ok: all json report keys set()
+5.3 ok: pitch01->sub01 page2+ts; sub03 HIGH exact-copy; sub07 LOW; template Ignored
+5.4 ok: pytest 3 passed
 
 ## STOP messages (send to the user, then wait)
 - **STOP-UV:** "Please install uv, then reply 'done': `curl -LsSf https://astral.sh/uv/install.sh | sh` (Arch: `sudo pacman -S uv`)"

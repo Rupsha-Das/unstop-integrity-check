@@ -1,0 +1,44 @@
+{
+  "document_id": "sub03_charlie.docx",
+  "status": "ok",
+  "skip_reason": null,
+  "total_integrity_risk": "HIGH",
+  "scores": {
+    "peer_similarity_percentage": 100.0,
+    "external_similarity_percentage": 0.0,
+    "ai_generated_probability": 26.7
+  },
+  "peer_matches": [
+    {
+      "matched_file": "sub02_bravo.pdf",
+      "similarity_score": 1.0,
+      "jaccard": 1.0,
+      "match_type": "near-exact copy",
+      "query_passage": "Three numbers drive our case, and we will keep them visible all the way through. Only one in twenty four tier-2 households shops for groceries online today, against nearly one in seven in our metros, which is the headroom most people miss. Meanwhile we pay roughly 40% of metro shop rates for outlets outside the big six, and riders there earn 18% less.",
+      "matched_passage": "Three numbers drive our case, and we will keep them visible all the way through. Only one in twenty four tier-2 households shops for groceries online today, against nearly one in seven in our metros, which is the headroom most people miss. Meanwhile we pay roughly 40% of metro shop rates for outlets outside the big six, and riders there earn 18% less.",
+      "location": {
+        "query_paragraph": 2,
+        "matched_page": 1
+      },
+      "passage_count": 5
+    }
+  ],
+  "multimodal_matches": [],
+  "external_matches": [],
+  "excluded_boilerplate": [
+    {
+      "passage": "GreenCart Case Competition 2026: Problem Statement. GreenCart is a five-year-old online grocery delivery company operati",
+      "shared_with_n_files": 4
+    },
+    {
+      "passage": "Second, if it expands, which three cities should it enter first and why? Third, what operational changes are needed to m",
+      "shared_with_n_files": 4
+    }
+  ],
+  "ai_details": {
+    "perplexity": 275.2,
+    "burstiness": 1.7,
+    "note": ""
+  },
+  "explanations": "5 of 7 passages (71.4%) closely match other submissions: sub02_bravo.pdf (5 passages, near-exact copy). 2 passages shared with up to 4 other files were treated as common template text and ignored. No external source matches. AI likelihood 27% (perplexity 275.2, burstiness 1.7)."
+}

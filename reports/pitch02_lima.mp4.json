@@ -1,0 +1,21 @@
+{
+  "document_id": "pitch02_lima.mp4",
+  "status": "ok",
+  "skip_reason": null,
+  "total_integrity_risk": "LOW",
+  "scores": {
+    "peer_similarity_percentage": 0.0,
+    "external_similarity_percentage": 0.0,
+    "ai_generated_probability": 28.4
+  },
+  "peer_matches": [],
+  "multimodal_matches": [],
+  "external_matches": [],
+  "excluded_boilerplate": [],
+  "ai_details": {
+    "perplexity": 473.1,
+    "burstiness": 0.47,
+    "note": ""
+  },
+  "explanations": "No other submission matches (1 passages checked). No external source matches. AI likelihood 28% (perplexity 473.1, burstiness 0.47)."
+}

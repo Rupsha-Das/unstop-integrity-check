@@ -1,0 +1,44 @@
+{
+  "document_id": "sub05_echo.docx",
+  "status": "ok",
+  "skip_reason": null,
+  "total_integrity_risk": "HIGH",
+  "scores": {
+    "peer_similarity_percentage": 80.0,
+    "external_similarity_percentage": 0.0,
+    "ai_generated_probability": 21.7
+  },
+  "peer_matches": [
+    {
+      "matched_file": "sub04_delta.docx",
+      "similarity_score": 0.95,
+      "jaccard": 0.48,
+      "match_type": "paraphrase / semantic match",
+      "query_passage": "What expansion into tier-2 cities alters is the cost line, not the revenue line. Fitting out a dark store in Bhubaneswar takes 62 lakh, compared with 1 crore 40 in Mumbai. Rent comes to 14 rupees per order there, against 39 in the metros, and that spread is the largest lever our analysis surfaced.",
+      "matched_passage": "Tier-2 expansion changes the cost line rather than the revenue line. A dark store in Bhubaneswar costs us 62 lakh to fit out against 1 crore 40 in Mumbai. Rent works out to 14 rupees per order versus 39 in the metros, which is the single biggest lever we found.",
+      "location": {
+        "query_paragraph": 3,
+        "matched_paragraph": 3
+      },
+      "passage_count": 4
+    }
+  ],
+  "multimodal_matches": [],
+  "external_matches": [],
+  "excluded_boilerplate": [
+    {
+      "passage": "GreenCart Case Competition 2026: Problem Statement. GreenCart is a five-year-old online grocery delivery company operati",
+      "shared_with_n_files": 4
+    },
+    {
+      "passage": "Second, if it expands, which three cities should it enter first and why? Third, what operational changes are needed to m",
+      "shared_with_n_files": 4
+    }
+  ],
+  "ai_details": {
+    "perplexity": 298.6,
+    "burstiness": 1.59,
+    "note": ""
+  },
+  "explanations": "4 of 7 passages (57.1%) closely match other submissions: sub04_delta.docx (4 passages, paraphrase / semantic match). 2 passages shared with up to 4 other files were treated as common template text and ignored. No external source matches. AI likelihood 22% (perplexity 298.6, burstiness 1.59)."
+}
