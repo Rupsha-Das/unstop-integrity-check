@@ -1,0 +1,145 @@
+{
+  "files": {
+    "sub01_alpha.pdf": {
+      "label": "original_with_template",
+      "expect": {
+        "status": "ok",
+        "peer": true,
+        "external": false,
+        "ai": false
+      }
+    },
+    "sub02_bravo.pdf": {
+      "label": "original_with_template",
+      "expect": {
+        "status": "ok",
+        "peer": true,
+        "external": false,
+        "ai": false
+      }
+    },
+    "sub03_charlie.docx": {
+      "label": "exact_copy",
+      "expect": {
+        "status": "ok",
+        "peer": true,
+        "external": false,
+        "ai": false
+      }
+    },
+    "sub04_delta.docx": {
+      "label": "original_with_template",
+      "expect": {
+        "status": "ok",
+        "peer": true,
+        "external": false,
+        "ai": false
+      }
+    },
+    "sub05_echo.docx": {
+      "label": "paraphrase",
+      "expect": {
+        "status": "ok",
+        "peer": true,
+        "external": false,
+        "ai": false
+      }
+    },
+    "sub06_foxtrot.pdf": {
+      "label": "ai_generated",
+      "expect": {
+        "status": "ok",
+        "peer": false,
+        "external": false,
+        "ai": true
+      }
+    },
+    "sub07_golf.pdf": {
+      "label": "original",
+      "expect": {
+        "status": "ok",
+        "peer": false,
+        "external": false,
+        "ai": false
+      }
+    },
+    "sub08_hotel.docx": {
+      "label": "external_copy",
+      "expect": {
+        "status": "ok",
+        "peer": false,
+        "external": true,
+        "ai": false
+      }
+    },
+    "sub09_india.docx": {
+      "label": "original",
+      "expect": {
+        "status": "ok",
+        "peer": false,
+        "external": false,
+        "ai": false
+      }
+    },
+    "sub10_juliet.pdf": {
+      "label": "degraded_empty",
+      "expect": {
+        "status": "skipped"
+      }
+    },
+    "pitch01_kilo.mp4": {
+      "label": "cross_modal_copy",
+      "expect": {
+        "status": "ok",
+        "peer": true,
+        "external": false,
+        "ai": false
+      }
+    },
+    "pitch02_lima.mp4": {
+      "label": "original",
+      "expect": {
+        "status": "ok",
+        "peer": false,
+        "external": false,
+        "ai": false
+      }
+    },
+    "pitch03_mike.mp4": {
+      "label": "degraded_silent",
+      "expect": {
+        "status": "skipped"
+      }
+    }
+  },
+  "pairs": [
+    {
+      "a": "sub02_bravo.pdf",
+      "b": "sub03_charlie.docx",
+      "relation": "exact_copy"
+    },
+    {
+      "a": "sub04_delta.docx",
+      "b": "sub05_echo.docx",
+      "relation": "paraphrase"
+    },
+    {
+      "a": "sub01_alpha.pdf",
+      "b": "pitch01_kilo.mp4",
+      "relation": "cross_modal"
+    },
+    {
+      "a": "sub08_hotel.docx",
+      "b": "quick_commerce.txt",
+      "relation": "external"
+    }
+  ],
+  "template_files": [
+    "sub01_alpha.pdf",
+    "sub02_bravo.pdf",
+    "sub03_charlie.docx",
+    "sub04_delta.docx",
+    "sub05_echo.docx"
+  ],
+  "note": "Overlap is flagged on BOTH sides of a copy pair; deciding who copied is a human decision."
+}

@@ -1,6 +1,6 @@
 # PROGRESS
 
-STATUS: next=1.1 | blocked=no
+STATUS: next=2.1 | blocked=no
 
 Rules: one step → run V → matches E? tick + 1 log line : fix (3 fails → STOP-STUCK). Commit after each phase. `R` = `uv run`.
 
@@ -11,11 +11,11 @@ Rules: one step → run V → matches E? tick + 1 log line : fix (3 fails → ST
   V: `R python -c "import fitz,docx,reportlab,faster_whisper,sentence_transformers,faiss,transformers,gtts,imageio_ffmpeg,av,torch;print('ok',torch.__version__)"`  E: `ok 2.x+cpu`
 
 ### 1 Dataset (SPEC §6)
-- [ ] 1.1 `reference_corpus/` 6 txt.  V: `wc -w reference_corpus/*`  E: 6 files, 120–250 words each
-- [ ] 1.2 `build_dataset.py` (texts inside + builder + manifest). `R build_dataset.py` (gTTS error → STOP-NET).
+- [x] 1.1 `reference_corpus/` 6 txt.  V: `wc -w reference_corpus/*`  E: 6 files, 120–250 words each
+- [x] 1.2 `build_dataset.py` (texts inside + builder + manifest). `R build_dataset.py` (gTTS error → STOP-NET).
   V: `ls -la sample_submissions; R python -c "import av,glob;[print(f,round(av.open(f).duration/1e6),bool(av.open(f).streams.audio)) for f in sorted(glob.glob('sample_submissions/*.mp4'))]"`
   E: 13 files + manifest; sub10 = 0 bytes; pitch01/02 10–35 s True; pitch03 ~10 s False
-- [ ] 1.3 V: `R python -c "import fitz;d=fitz.open('sample_submissions/sub01_alpha.pdf');print(d.page_count,'Jaipur' in d[1].get_text())"`  E: `2 True` (or more pages)
+- [x] 1.3 V: `R python -c "import fitz;d=fitz.open('sample_submissions/sub01_alpha.pdf');print(d.page_count,'Jaipur' in d[1].get_text())"`  E: `2 True` (or more pages)
 
 ### 2 Extract + chunk (SPEC §5.1–5.2)
 - [ ] 2.1 extract part.  V: `R python -m integrity.extract sample_submissions`  E: 11 ok; sub10 `empty file`; pitch03 `no audio track`; pitch01 text ≈ CROSSMODAL; no "Confidential"/"Page N" in sub01 text
@@ -52,6 +52,9 @@ Rules: one step → run V → matches E? tick + 1 log line : fix (3 fails → ST
 ## Log
 <!-- one line per step, ≤15 words: `<step> ok|fail: <key result>`. e.g. `3.2 ok: 02-03 .99, 04-05 .84, 01-pitch01 .88` -->
 0.1 ok: imports ok, torch 2.15.0+cpu
+1.1 ok: 6 txt files, 221-249 words
+1.2 ok: 14 files; sub10 0B; pitch01/02 35s audio, pitch03 10s no audio
+1.3 ok: sub01 2 pages, Jaipur on page 2
 
 ## STOP messages (send to the user, then wait)
 - **STOP-UV:** "Please install uv, then reply 'done': `curl -LsSf https://astral.sh/uv/install.sh | sh` (Arch: `sudo pacman -S uv`)"
