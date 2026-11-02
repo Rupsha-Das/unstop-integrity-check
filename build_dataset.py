@@ -73,10 +73,10 @@ ALPHA = [
 ]
 
 BRAVO = [
-    "Our case for expansion rests on three numbers. Online grocery penetration in tier-2 cities "
-    "is 4.1% today against 11.8% in the metros, so the headroom is bigger than most people "
-    "assume. Commercial land costs run at 40% of metro rates, and rider wages are 18% lower "
-    "outside the six big cities.",
+    "Three numbers drive our case, and we will keep them visible all the way through. Only one "
+    "in twenty four tier-2 households shops for groceries online today, against nearly one in "
+    "seven in our metros, which is the headroom most people miss. Meanwhile we pay roughly 40% "
+    "of metro shop rates for outlets outside the big six, and riders there earn 18% less.",
     "The catch is basket size. Our Kota pilot showed an average order value of 980 rupees "
     "against 1,450 in Delhi, because customers use the app as a top-up channel there. We "
     "compensate with a 25 rupee basket fee under 700 rupees, plus staples bundles, which "
@@ -185,8 +185,9 @@ GOLF = [
 ]
 
 HOTEL = [
-    "We start with context on the sector, because the operating model of quick commerce drives "
-    "every number that follows. " + QUICK_PARA,
+    "We want to lay out what the sector actually is before arguing anything, because the "
+    "operating model of quick commerce sits underneath every number in this deck.",
+    QUICK_PARA,
     "That context matters for one reason: neighbourhood-level density is what makes "
     "thirty-minute delivery affordable. Our metro riders average 9.4 minutes per drop, while a "
     "test route in Kanpur covered 6.1 km per drop on broken roads, which burns an extra 22 "
@@ -215,13 +216,6 @@ INDIA = [
     "average order value from 1,450 toward 1,600. Then talk about twelve cities.",
     "Cash buys options. The market will still be there in eighteen months; a balance sheet "
     "survives only so many ill-funded expansions.",
-]
-
-PITCH_REFINE = [
-    "Final note before the board vote: the pilot taught us that operations beat advertising in "
-    "the first year. We spent 1.9 crore on brand in Jaipur and got 0.4% of it back in orders, "
-    "while a 22 rupee refill incentive on staples moved weekly repeat purchase by 9%. Spend "
-    "phase one on picking labour and cold storage, not on hoardings.",
 ]
 
 MANIFEST = {
@@ -304,8 +298,7 @@ def main():
 
     # 1 sub01_alpha.pdf: template + body on p1, CROSSMODAL alone on page 2
     write_pdf("sub01_alpha.pdf",
-              [P(TEMPLATE)] + [P(t) for t in ALPHA]
-              + [PageBreak(), P(CROSSMODAL), P(PITCH_REFINE[0])])
+              [P(TEMPLATE)] + [P(t) for t in ALPHA] + [PageBreak(), P(CROSSMODAL)])
 
     # 2 sub02_bravo.pdf
     write_pdf("sub02_bravo.pdf", [P(TEMPLATE)] + [P(t) for t in BRAVO])
@@ -323,8 +316,8 @@ def main():
     # 7 sub07_golf.pdf
     write_pdf("sub07_golf.pdf", [P(t) for t in GOLF])
 
-    # 8 sub08_hotel.docx
-    make_docx("sub08_hotel.docx", [TEMPLATE] + HOTEL)
+    # 8 sub08_hotel.docx: original + one verbatim paragraph from quick_commerce.txt
+    make_docx("sub08_hotel.docx", HOTEL)
 
     # 9 sub09_india.docx
     make_docx("sub09_india.docx", INDIA)

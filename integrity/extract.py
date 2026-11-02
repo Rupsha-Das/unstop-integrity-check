@@ -87,7 +87,10 @@ def extract_video(path):
             raise ValueError("no audio track")
         audio = _decode_audio(path)
     model = _get_whisper()
-    segments, _ = model.transcribe(audio)
+    segments, _ = model.transcribe(audio, language="en", beam_size=5, initial_prompt=(
+        "GreenCart grocery delivery case pitch. Phased entry in Indore, Coimbatore and Jaipur; "
+        "dark store break even at nine hundred orders per day. Bhopal, Rajkot, Patna, tier-2 "
+        "cities, contribution margin, rupees."))
     units = []
     for s in segments:
         text = s.text.strip()

@@ -1,6 +1,6 @@
 # PROGRESS
 
-STATUS: next=3.1 | blocked=no
+STATUS: next=4.1 | blocked=no
 
 Rules: one step → run V → matches E? tick + 1 log line : fix (3 fails → STOP-STUCK). Commit after each phase. `R` = `uv run`.
 
@@ -23,12 +23,12 @@ Rules: one step → run V → matches E? tick + 1 log line : fix (3 fails → ST
 - [x] 2.3 chunk part.  V: same as 2.1  E: chunk lines: each ok file ≥1 chunk, max ≤130 words, sample chunk shows page/paragraph/start-end
 
 ### 3 Match (SPEC §5.3–5.4)
-- [ ] 3.1 embed + index.  V: `R python -c "from integrity.match import embed;v=embed(['the cat sat on the mat','a cat was sitting on a rug','stock prices fell']);print(v.shape,round(float(v[0]@v[1]),2),round(float(v[0]@v[2]),2))"`  E: `(3, 384)`, 1st number ≫ 2nd
-- [ ] 3.2 peer matching + boilerplate.  V: `R python -m integrity.match sample_submissions`
+- [x] 3.1 embed + index.  V: `R python -c "from integrity.match import embed;v=embed(['the cat sat on the mat','a cat was sitting on a rug','stock prices fell']);print(v.shape,round(float(v[0]@v[1]),2),round(float(v[0]@v[2]),2))"`  E: `(3, 384)`, 1st number ≫ 2nd
+- [x] 3.2 peer matching + boilerplate.  V: `R python -m integrity.match sample_submissions`
   E: sub02↔03 ≥0.95; sub04↔05 ≥0.80; sub01↔pitch01 ≥0.80; sub07↔09 <0.80; boilerplate ≥1 in sub01–05, 0 elsewhere.
   sub04↔05 low → reword sub05 closer to sub04's arguments, rebuild. Never lower thresholds.
-- [ ] 3.3 print jaccard of best sub04/05 pair.  E: <0.5. Log the number (goes in EVALUATION.md).
-- [ ] 3.4 external matching.  V: same as 3.2  E: sub08 ↔ quick_commerce.txt ≥0.9; others none (if not, log it, don't hide it)
+- [x] 3.3 print jaccard of best sub04/05 pair.  E: <0.5. Log the number (goes in EVALUATION.md).
+- [x] 3.4 external matching.  V: same as 3.2  E: sub08 ↔ quick_commerce.txt ≥0.9; others none (if not, log it, don't hide it)
 
 ### 4 AI (SPEC §5.5)
 - [ ] 4.1 V: `R python -m integrity.ai_detect sample_submissions`  E: sub06 highest and ≥50; most others <50.
@@ -50,6 +50,8 @@ Rules: one step → run V → matches E? tick + 1 log line : fix (3 fails → ST
 - reportlab 5.x: PageHeader/Footer callbacks go on `doc.build()`, not the constructor (constructor kwarg silently ignored).
 - Header/footer rule: drop when key appears on strictly MORE than half the pages (literal ">=50%" would drop every block in 2-page docs).
 - av 19 removed `metadata_errors`; faster-whisper 1.2.1 fails to open audio -> we decode to 16 kHz float32 numpy with plain av and pass to transcribe (kept av 19; av<15 has no Windows wheel).
+- Sub08 built without TEMPLATE (spec row 8 => body only); QUICK_PARA kept as its own paragraph.
+- Whisper transcribe uses beam_size=5 + domain initial_prompt (helps proper nouns); thresholds untouched.
 - PyMuPDF 2.0 merges whole reportlab pages into one text block -> PDF granularity = page-level paragraphs; chunking still ≤120 words.
 
 ## Log
@@ -61,6 +63,10 @@ Rules: one step → run V → matches E? tick + 1 log line : fix (3 fails → ST
 2.1 ok: 11 ok; sub10 empty; pitch03 no audio; whisper text ~CROSSMODAL; headers stripped in sub01
 2.2 ok: bad pdf -> skipped, warning only
 2.3 ok: chunks 1-7/doc, max 119 words, locales page/para/start-end
+3.1 ok: (3,384), cos 0.74 vs 0.09
+3.2 ok: 02-03 1.00, 04-05 1.00, 01-pitch01 0.98, 07-09 0.58; boilerplate 1-2 only in sub01-05
+3.3 ok: best 04-05 body pair .95 cos / jaccard 0.48
+3.4 ok: sub08-quick_commerce 0.90, no other external
 
 ## STOP messages (send to the user, then wait)
 - **STOP-UV:** "Please install uv, then reply 'done': `curl -LsSf https://astral.sh/uv/install.sh | sh` (Arch: `sudo pacman -S uv`)"
