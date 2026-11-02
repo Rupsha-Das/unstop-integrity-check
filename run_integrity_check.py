@@ -16,12 +16,24 @@ from integrity.report import build_report, write_markdown, write_report_json, wr
 
 
 def main():
-    ap = argparse.ArgumentParser(description="Multimodal plagiarism check")
-    ap.add_argument("--input_dir", default="./sample_submissions")
-    ap.add_argument("--output_dir", default="./reports")
-    ap.add_argument("--reference_dir", default="./reference_corpus")
+    ap = argparse.ArgumentParser(
+        prog="integrity-check",
+        description="Multimodal plagiarism check for PDF/DOCX/MP4 submissions. "
+                    "With no arguments it checks ./sample_submissions into ./reports "
+                    "and evaluates the results.")
+    ap.add_argument("--input_dir", default="./sample_submissions",
+                    help="folder of submissions to check (default ./sample_submissions)")
+    ap.add_argument("--output_dir", default="./reports",
+                    help="folder for reports (default ./reports)")
+    ap.add_argument("--reference_dir", default="./reference_corpus",
+                    help="folder of .txt reference 'web' files (default ./reference_corpus)")
+    ap.add_argument("--no-eval", action="store_true",
+                    help="skip the evaluation step after reporting")
+    ap.add_argument("--verbose", "-v", action="store_true",
+                    help="show progress/debug logs (default: quiet)")
     args = ap.parse_args()
-    logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
+    logging.basicConfig(level=logging.INFO if args.verbose else logging.WARNING,
+                        format="%(levelname)s %(message)s")
     out = Path(args.output_dir)
     out.mkdir(parents=True, exist_ok=True)
 
@@ -64,6 +76,15 @@ def main():
                  f"{sc['peer_similarity_percentage']} | {sc['external_similarity_percentage']}"
                  f" | {sc['ai_generated_probability']} | {top}")
     print("\n".join(s))
+    print(f"\n-> {len(reports) * 2 + 2} report files written to {out} "
+          f"(summary: {Path(args.output_dir) / 'summary.md'})")
+
+    if not args.no_eval:
+        try:
+            from evaluate import main as evaluate_main
+            evaluate_main(args.output_dir)
+        except Exception as e:
+            logging.warning("evaluation skipped: %s", e)
     return 0
 
 

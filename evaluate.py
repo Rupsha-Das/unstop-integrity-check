@@ -4,14 +4,13 @@ import json
 from pathlib import Path
 
 MANIFEST = Path("sample_submissions/dataset_manifest.json")
-REPORT_DIR = Path("reports")
 
 SIGNALS = ("peer", "external", "ai")
 
 
-def load_reports():
+def load_reports(report_dir):
     reports = {}
-    for path in glob.glob(str(REPORT_DIR / "*.json")):
+    for path in glob.glob(str(Path(report_dir) / "*.json")):
         if "summary" in path or "evaluation" in path:
             continue
         r = json.loads(Path(path).read_text(encoding="utf-8"))
@@ -48,9 +47,10 @@ def confusion(ok_names, manifest, reports, signal):
             "recall": None if recall is None else round(recall, 2)}
 
 
-def main():
+def main(out_dir=Path("reports")):
+    out_dir = Path(out_dir)
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
-    reports = load_reports()
+    reports = load_reports(out_dir)
     ok_names = [n for n, f in manifest["files"].items() if f["expect"]["status"] == "ok"]
     lines = ["# Evaluation results", ""]
 
@@ -91,7 +91,7 @@ def main():
 
     text = "\n".join(lines)
     print(text)
-    (REPORT_DIR / "evaluation_results.md").write_text(text, encoding="utf-8")
+    (out_dir / "evaluation_results.md").write_text(text, encoding="utf-8")
     return 0
 
 

@@ -1,0 +1,17 @@
+README.md
+build_dataset.py
+evaluate.py
+pyproject.toml
+run_integrity_check.py
+integrity/ai_detect.py
+integrity/config.py
+integrity/extract.py
+integrity/match.py
+integrity/report.py
+integrity_check.egg-info/PKG-INFO
+integrity_check.egg-info/SOURCES.txt
+integrity_check.egg-info/dependency_links.txt
+integrity_check.egg-info/entry_points.txt
+integrity_check.egg-info/requires.txt
+integrity_check.egg-info/top_level.txt
+tests/test_core.py

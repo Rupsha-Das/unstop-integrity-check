@@ -36,10 +36,26 @@ downloaded automatically on first run — no API keys needed.
 ## Run
 
 ```bash
-uv run run_integrity_check.py --input_dir ./sample_submissions --output_dir ./reports
-uv run evaluate.py            # optional: compares reports to the dataset manifest
-uv run pytest -q              # optional: 3 core tests
+uv sync          # once
+uv run integrity-check
 ```
+
+That single command extracts, transcribes, matches and scores everything in
+`./sample_submissions`, writes `./reports/` (JSON + Markdown per file, plus
+`summary.md`) and evaluates itself against the dataset manifest — no arguments
+needed.
+
+Options:
+
+```bash
+uv run integrity-check --input_dir ./my_submissions --output_dir ./out   # own folders
+uv run integrity-check --reference_dir ./reference_corpus               # custom 'web'
+uv run integrity-check --no-eval                                        # skip evaluation
+uv run integrity-check -v                                               # show progress logs
+```
+
+Evaluation can also be run/printed separately with
+`uv run evaluate.py [report_dir]`, and `uv run pytest -q` runs 3 core tests.
 
 ## How it works
 

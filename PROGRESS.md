@@ -57,6 +57,7 @@ Rules: one step → run V → matches E? tick + 1 log line : fix (3 fails → ST
 - PDF paragraphs: PyMuPDF 2.0 "blocks" merges whole pages; re-group lines by y-gap (paragraph spaceAfter=12 in generated PDFs, gap threshold 0.5*lineheight+2) to get paragraph units.
 - 1-page PDFs keep drawn header as a unit (spec filter only for pages>=2); dropped later by CHUNK_MIN_WORDS.
 - pytest needs pythonpath=["."] in pyproject (test module import).
+- Production CLI: `uv run integrity-check` (console script via [project.scripts]) with zero-arg defaults (sample_submissions -> reports), runs evaluation after the check; `--no-eval`, `-v` available; default logging is WARNING (HF/whisper INFO spam hidden), SPEC run command still works with explicit flags.
 - PyMuPDF 2.0 merges whole reportlab pages into one text block -> PDF granularity = page-level paragraphs; chunking still ≤120 words.
 
 ## Log
@@ -81,6 +82,7 @@ Rules: one step → run V → matches E? tick + 1 log line : fix (3 fails → ST
 6.2 ok: EVALUATION.md written (tables, jaccard .48 vs cos .95, 4 failures, trade-offs)
 6.3 ok: README.md written
 6.4 ok: clean rerun; run ok, eval ok, pytest 3 passed
+6.5 ok: integrity-check one-command CLI; exit 0; pytest 3 passed
 
 ## STOP messages (send to the user, then wait)
 - **STOP-UV:** "Please install uv, then reply 'done': `curl -LsSf https://astral.sh/uv/install.sh | sh` (Arch: `sudo pacman -S uv`)"

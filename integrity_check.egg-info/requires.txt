@@ -1,0 +1,13 @@
+pymupdf
+python-docx
+reportlab
+faster-whisper
+av
+sentence-transformers
+faiss-cpu
+transformers
+torch
+numpy
+gTTS
+imageio-ffmpeg
+pytest

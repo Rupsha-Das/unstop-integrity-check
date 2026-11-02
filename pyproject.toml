@@ -8,6 +8,17 @@ dependencies = [
   "numpy", "gTTS", "imageio-ffmpeg", "pytest",
 ]
 
+[project.scripts]
+integrity-check = "run_integrity_check:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["integrity"]
+py-modules = ["run_integrity_check", "build_dataset", "evaluate"]
+
 [tool.uv.sources]
 torch = [{ index = "pytorch-cpu" }]
 
