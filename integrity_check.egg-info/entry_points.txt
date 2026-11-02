@@ -1,2 +1,0 @@
-[console_scripts]
-integrity-check = run_integrity_check:main
