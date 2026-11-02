@@ -263,8 +263,8 @@ def write_pdf(name, flowables):
         canvas.drawCentredString(A4[0] / 2, 28, f"Page {canvas.getPageNumber()}")
         canvas.restoreState()
 
-    doc = SimpleDocTemplate(str(OUT / name), pagesize=A4, onFirstPage=on_page, onLaterPages=on_page)
-    doc.build(flowables)
+    doc = SimpleDocTemplate(str(OUT / name), pagesize=A4)
+    doc.build(flowables, onFirstPage=on_page, onLaterPages=on_page)
 
 
 def make_docx(name, paras):

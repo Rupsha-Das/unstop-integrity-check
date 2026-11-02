@@ -1,6 +1,6 @@
 # PROGRESS
 
-STATUS: next=2.1 | blocked=no
+STATUS: next=3.1 | blocked=no
 
 Rules: one step → run V → matches E? tick + 1 log line : fix (3 fails → STOP-STUCK). Commit after each phase. `R` = `uv run`.
 
@@ -18,9 +18,9 @@ Rules: one step → run V → matches E? tick + 1 log line : fix (3 fails → ST
 - [x] 1.3 V: `R python -c "import fitz;d=fitz.open('sample_submissions/sub01_alpha.pdf');print(d.page_count,'Jaipur' in d[1].get_text())"`  E: `2 True` (or more pages)
 
 ### 2 Extract + chunk (SPEC §5.1–5.2)
-- [ ] 2.1 extract part.  V: `R python -m integrity.extract sample_submissions`  E: 11 ok; sub10 `empty file`; pitch03 `no audio track`; pitch01 text ≈ CROSSMODAL; no "Confidential"/"Page N" in sub01 text
-- [ ] 2.2 V: `printf x > /tmp/bad.pdf; R python -c "from integrity.extract import extract_file;print(extract_file('/tmp/bad.pdf')['status'])"`  E: `skipped`, no traceback
-- [ ] 2.3 chunk part.  V: same as 2.1  E: chunk lines: each ok file ≥1 chunk, max ≤130 words, sample chunk shows page/paragraph/start-end
+- [x] 2.1 extract part.  V: `R python -m integrity.extract sample_submissions`  E: 11 ok; sub10 `empty file`; pitch03 `no audio track`; pitch01 text ≈ CROSSMODAL; no "Confidential"/"Page N" in sub01 text
+- [x] 2.2 V: `printf x > /tmp/bad.pdf; R python -c "from integrity.extract import extract_file;print(extract_file('/tmp/bad.pdf')['status'])"`  E: `skipped`, no traceback
+- [x] 2.3 chunk part.  V: same as 2.1  E: chunk lines: each ok file ≥1 chunk, max ≤130 words, sample chunk shows page/paragraph/start-end
 
 ### 3 Match (SPEC §5.3–5.4)
 - [ ] 3.1 embed + index.  V: `R python -c "from integrity.match import embed;v=embed(['the cat sat on the mat','a cat was sitting on a rug','stock prices fell']);print(v.shape,round(float(v[0]@v[1]),2),round(float(v[0]@v[2]),2))"`  E: `(3, 384)`, 1st number ≫ 2nd
@@ -47,7 +47,10 @@ Rules: one step → run V → matches E? tick + 1 log line : fix (3 fails → ST
 - [ ] 6.4 V: `rm -rf reports && R run_integrity_check.py --input_dir ./sample_submissions --output_dir ./reports && R evaluate.py && R pytest -q`  E: all pass. Commit → STOP-DONE.
 
 ## Decisions
--
+- reportlab 5.x: PageHeader/Footer callbacks go on `doc.build()`, not the constructor (constructor kwarg silently ignored).
+- Header/footer rule: drop when key appears on strictly MORE than half the pages (literal ">=50%" would drop every block in 2-page docs).
+- av 19 removed `metadata_errors`; faster-whisper 1.2.1 fails to open audio -> we decode to 16 kHz float32 numpy with plain av and pass to transcribe (kept av 19; av<15 has no Windows wheel).
+- PyMuPDF 2.0 merges whole reportlab pages into one text block -> PDF granularity = page-level paragraphs; chunking still ≤120 words.
 
 ## Log
 <!-- one line per step, ≤15 words: `<step> ok|fail: <key result>`. e.g. `3.2 ok: 02-03 .99, 04-05 .84, 01-pitch01 .88` -->
@@ -55,6 +58,9 @@ Rules: one step → run V → matches E? tick + 1 log line : fix (3 fails → ST
 1.1 ok: 6 txt files, 221-249 words
 1.2 ok: 14 files; sub10 0B; pitch01/02 35s audio, pitch03 10s no audio
 1.3 ok: sub01 2 pages, Jaipur on page 2
+2.1 ok: 11 ok; sub10 empty; pitch03 no audio; whisper text ~CROSSMODAL; headers stripped in sub01
+2.2 ok: bad pdf -> skipped, warning only
+2.3 ok: chunks 1-7/doc, max 119 words, locales page/para/start-end
 
 ## STOP messages (send to the user, then wait)
 - **STOP-UV:** "Please install uv, then reply 'done': `curl -LsSf https://astral.sh/uv/install.sh | sh` (Arch: `sudo pacman -S uv`)"
