@@ -248,6 +248,11 @@ def write_summary(all_reports, matrix, out_dir):
                       s["peer_similarity_percentage"], s["external_similarity_percentage"],
                       s["ai_generated_probability"], top(r))) + " |")
     md += ["", "## Pairwise best chunk similarity (doc x doc)", "",
+           "Best single-chunk cosine similarity, *before* the boilerplate rule. "
+           "Near-1.00 cells between unrelated submissions are the shared "
+           "institutional prompt, which is excluded from every score "
+           "(listed per report under *Ignored as common template*).",
+           "",
            "| " + " | ".join([""] + names) + " |",
            "|" + "---|" * (len(names) + 1)]
     for a in names:

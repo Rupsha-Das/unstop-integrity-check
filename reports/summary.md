@@ -18,6 +18,8 @@
 
 ## Pairwise best chunk similarity (doc x doc)
 
+Best single-chunk cosine similarity, *before* the boilerplate rule. Near-1.00 cells between unrelated submissions are the shared institutional prompt, which is excluded from every score (listed per report under *Ignored as common template*).
+
 |  | pitch01_kilo.mp4 | pitch02_lima.mp4 | sub01_alpha.pdf | sub02_bravo.pdf | sub03_charlie.docx | sub04_delta.docx | sub05_echo.docx | sub06_foxtrot.pdf | sub07_golf.pdf | sub08_hotel.docx | sub09_india.docx |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | pitch01_kilo.mp4 | - | 0.62 | 0.98 | 0.61 | 0.61 | 0.59 | 0.59 | 0.46 | 0.41 | 0.53 | 0.44 |
