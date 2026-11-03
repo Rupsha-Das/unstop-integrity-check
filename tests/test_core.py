@@ -66,3 +66,52 @@ def test_two_threshold_neighbours_in_one_target_doc():
     peer = find_matches(chunks, vecs, chunks, idx, exclude_same_doc=True)
     hits = [m for m in peer["b.docx#2"]["matches"] if m[0]["doc_id"] == "a.pdf"]
     assert len(hits) == 1 and hits[0][1] >= 0.80
+
+
+def test_evaluation_rejects_missing_reports(tmp_path, monkeypatch):
+    import json
+    import pytest
+    import evaluate
+
+    manifest_path = tmp_path / "dataset_manifest.json"
+    manifest_path.write_text(json.dumps({"files": {"a.pdf": {}}}), encoding="utf-8")
+    monkeypatch.setattr(evaluate, "MANIFEST", manifest_path)
+
+    with pytest.raises(ValueError, match="Missing reports for manifest files: a.pdf"):
+        evaluate.main(tmp_path / "reports")
+
+
+def test_evaluation_finds_pair_reported_from_either_side(tmp_path, monkeypatch):
+    import json
+    import evaluate
+
+    manifest = {
+        "files": {
+            "a.pdf": {"label": "original",
+                      "expect": {"status": "ok", "peer": False,
+                                 "external": False, "ai": False}},
+            "b.docx": {"label": "original_with_template",
+                       "expect": {"status": "ok", "peer": True,
+                                  "external": False, "ai": False}},
+        },
+        "pairs": [{"a": "a.pdf", "b": "b.docx", "relation": "exact_copy"}],
+        "template_files": [],
+    }
+    manifest_path = tmp_path / "dataset_manifest.json"
+    manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+    monkeypatch.setattr(evaluate, "MANIFEST", manifest_path)
+
+    reports_dir = tmp_path / "reports"
+    reports_dir.mkdir()
+    common = {"status": "ok", "scores": {"ai_generated_probability": 0},
+              "peer_matches": [], "multimodal_matches": [], "external_matches": [],
+              "excluded_boilerplate": []}
+    (reports_dir / "a.pdf.json").write_text(
+        json.dumps({**common, "document_id": "a.pdf"}), encoding="utf-8")
+    b_report = {**common, "document_id": "b.docx",
+                "peer_matches": [{"matched_file": "a.pdf"}]}
+    (reports_dir / "b.docx.json").write_text(json.dumps(b_report), encoding="utf-8")
+
+    assert evaluate.main(reports_dir) == 0
+    result = (reports_dir / "evaluation_results.md").read_text(encoding="utf-8")
+    assert "| a.pdf <-> b.docx | exact_copy | yes |" in result

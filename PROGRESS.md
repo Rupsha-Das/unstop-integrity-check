@@ -85,6 +85,7 @@ Rules: one step → run V → matches E? tick + 1 log line : fix (3 fails → ST
 6.4 ok: clean rerun; run ok, eval ok, pytest 3 passed
 6.5 ok: integrity-check one-command CLI; exit 0; pytest 3 passed
 6.6 ok: single-file + single-dir targets; single-file report printed in CLI; pytest 3 passed
+7.1 ok: documented run 4/4 pairs; pytest 6 passed; evaluation rejects missing/stale reports
 
 ## STOP messages (send to the user, then wait)
 - **STOP-UV:** "Please install uv, then reply 'done': `curl -LsSf https://astral.sh/uv/install.sh | sh` (Arch: `sudo pacman -S uv`)"

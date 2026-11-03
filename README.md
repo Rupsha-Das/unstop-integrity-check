@@ -45,12 +45,11 @@ That single command extracts, transcribes, matches and scores everything in
 `summary.md`) and evaluates itself against the dataset manifest — no arguments
 needed.
 
-The explicit form from the assessment brief works the same way (run it inside
-the synced environment — `source .venv/bin/activate` on Linux/macOS,
-`.venv\Scripts\activate` on Windows, or prefix it with `uv run`):
+The explicit form from the assessment brief works the same way. Run it with
+`uv run` so the project environment is used on Windows, macOS, and Linux:
 
 ```bash
-python run_integrity_check.py --input_dir ./sample_submissions --output_dir ./rep
+uv run run_integrity_check.py --input_dir ./sample_submissions --output_dir ./reports
 ```
 
 ## Use it on your own files

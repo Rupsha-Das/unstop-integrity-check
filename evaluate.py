@@ -11,7 +11,7 @@ SIGNALS = ("peer", "external", "ai")
 def load_reports(report_dir):
     reports = {}
     for path in glob.glob(str(Path(report_dir) / "*.json")):
-        if "summary" in path or "evaluation" in path:
+        if "summary" in Path(path).name or "evaluation" in Path(path).name:
             continue
         r = json.loads(Path(path).read_text(encoding="utf-8"))
         reports[r["document_id"]] = r
@@ -51,6 +51,29 @@ def main(out_dir=Path("reports")):
     out_dir = Path(out_dir)
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
     reports = load_reports(out_dir)
+    expected_names = set(manifest["files"])
+    missing = sorted(expected_names - reports.keys())
+    if missing:
+        raise ValueError(
+            "Missing reports for manifest files: " + ", ".join(missing)
+        )
+
+    unexpected = sorted(reports.keys() - expected_names)
+    if unexpected:
+        raise ValueError(
+            "Reports have no manifest entry: " + ", ".join(unexpected)
+        )
+
+    status_mismatches = [
+        f"{name}: expected {manifest['files'][name]['expect']['status']}, "
+        f"got {reports[name].get('status')}"
+        for name in sorted(expected_names)
+        if reports[name].get("status") != manifest["files"][name]["expect"]["status"]
+    ]
+    if status_mismatches:
+        details = "; ".join(status_mismatches)
+        raise ValueError("Report status does not match manifest: " + details)
+
     ok_names = [n for n, f in manifest["files"].items() if f["expect"]["status"] == "ok"]
     lines = ["# Evaluation results", ""]
 
@@ -68,10 +91,14 @@ def main(out_dir=Path("reports")):
     hits = 0
     for pair in manifest["pairs"]:
         a, b = pair["a"], pair["b"]
-        r = reports.get(a, {})
-        all_m = (r.get("peer_matches", []) + r.get("multimodal_matches", [])
-                 + r.get("external_matches", []))
-        found = any(m["matched_file"] == b for m in all_m)
+        found = False
+        for source, target in ((a, b), (b, a)):
+            r = reports[source]
+            all_m = (r.get("peer_matches", []) + r.get("multimodal_matches", [])
+                     + r.get("external_matches", []))
+            if any(m["matched_file"] == target for m in all_m):
+                found = True
+                break
         hits += found
         lines.append(f"| {a} <-> {b} | {pair['relation']} | {'yes' if found else 'NO'} |")
     lines.append(f"\nPair recall: **{hits}/{len(manifest['pairs'])}**")
