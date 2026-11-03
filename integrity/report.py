@@ -50,31 +50,27 @@ def build_report(doc, chunks, peer, ext, ai):
         }
     own = [c for c in chunks if c["doc_id"] == doc_id]
 
-    peer_agg, mm_agg = {}, {}
-    peer_count = {}
+    peer_hits, mm_hits = [], []
     for c in own:
         if peer[c["chunk_id"]]["is_boilerplate"]:
             continue
         for t, s in peer[c["chunk_id"]]["matches"]:
-            bucket = peer_agg if t["modality"] == c["modality"] else mm_agg
-            if t["doc_id"] not in bucket or s > bucket[t["doc_id"]][0]:
-                bucket[t["doc_id"]] = (s, c, t)
-            peer_count.setdefault(t["doc_id"], set()).add(c["chunk_id"])
+            bucket = peer_hits if t["modality"] == c["modality"] else mm_hits
+            bucket.append((s, c, t))
 
-    ext_agg, ext_count = {}, {}
+    ext_hits = []
     for c in own:
         if peer[c["chunk_id"]]["is_boilerplate"]:
             continue
         for t, s in ext[c["chunk_id"]]["matches"]:
-            if t["doc_id"] not in ext_agg or s > ext_agg[t["doc_id"]][0]:
-                ext_agg[t["doc_id"]] = (s, c, t)
-            ext_count.setdefault(t["doc_id"], set()).add(c["chunk_id"])
+            ext_hits.append((s, c, t))
 
-    def mk(agg, counts):
-        out = []
-        for tdoc, (s, q, t) in sorted(agg.items(), key=lambda kv: -kv[1][0]):
-            out.append(_entry(q, t, s, len(counts[tdoc])))
-        return out
+    def mk(hits):
+        # Preserve each query/source passage pair so the report supports
+        # verification of every flagged passage, not only the best per file.
+        ordered = sorted(hits, key=lambda hit: (-hit[0], hit[1]["chunk_id"],
+                                                hit[2]["doc_id"], hit[2]["chunk_id"]))
+        return [_entry(q, t, s, 1) for s, q, t in ordered]
 
     boiler = [{"passage": c["text"][:120],
                "shared_with_n_files": peer[c["chunk_id"]]["shared_with_n_files"]}
@@ -96,9 +92,9 @@ def build_report(doc, chunks, peer, ext, ai):
         "document_id": doc_id, "status": "ok", "skip_reason": None,
         "total_integrity_risk": risk(scores),
         "scores": scores,
-        "peer_matches": mk(peer_agg, peer_count),
-        "multimodal_matches": mk(mm_agg, peer_count),
-        "external_matches": mk(ext_agg, ext_count),
+        "peer_matches": mk(peer_hits),
+        "multimodal_matches": mk(mm_hits),
+        "external_matches": mk(ext_hits),
         "excluded_boilerplate": boiler,
         "ai_details": {"perplexity": ai["perplexity"], "burstiness": ai["burstiness"],
                        "note": ai["note"]},
@@ -125,10 +121,12 @@ def _explain(rep, total, flagged):
     pct = round(100 * flagged / total, 1) if total else 0.0
     all_mm = rep["peer_matches"] + rep["multimodal_matches"]
     if all_mm:
+        source_counts = {}
+        for m in all_mm:
+            source_counts[m["matched_file"]] = source_counts.get(m["matched_file"], 0) + 1
         src = "; ".join(
-            f"{m['matched_file']} ({m['passage_count']} passage"
-            f"{'s' if m['passage_count'] != 1 else ''}, {m['match_type']})"
-            for m in all_mm[:3])
+            f"{name} ({count} passage{'s' if count != 1 else ''})"
+            for name, count in sorted(source_counts.items(), key=lambda item: -item[1])[:3])
         lead = (f"{flagged} of {total} passages ({pct}%) closely match other submissions: "
                 f"{src}.")
         if rep["multimodal_matches"]:

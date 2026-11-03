@@ -23,6 +23,8 @@ summary — designed so a judge can review 13 files in ~3 minutes.
   burstiness (coefficient of variation) → 0–100 %.
 - Writes `reports/<file>.json`, `reports/<file>.md` and `reports/summary.*`,
   plus `reports/evaluation_results.md`.
+- Preserves every matched query/source passage pair in the audit reports, with
+  its similarity score and page, paragraph, or timestamp locations.
 
 ## Setup
 

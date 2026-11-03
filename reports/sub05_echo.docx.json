@@ -20,7 +20,46 @@
         "query_paragraph": 3,
         "matched_paragraph": 3
       },
-      "passage_count": 4
+      "passage_count": 1
+    },
+    {
+      "matched_file": "sub04_delta.docx",
+      "similarity_score": 0.95,
+      "jaccard": 0.46,
+      "match_type": "paraphrase / semantic match",
+      "query_passage": "Break-even for a tier-2 store, per our model, arrives at 610 orders daily. Nine months were needed before our Pune flagship touched 800. Around eight months is our tier-2 expectation, since density in the catchments of the three preferred sites tops 11,000 households per square kilometre.",
+      "matched_passage": "Our model says a tier-2 store needs 610 orders a day to break even. Our Pune flagship took nine months to reach 800. We expect roughly eight months in tier-2, because the catchment density around the three preferred sites exceeds 11,000 households per square kilometre.",
+      "location": {
+        "query_paragraph": 4,
+        "matched_paragraph": 4
+      },
+      "passage_count": 1
+    },
+    {
+      "matched_file": "sub04_delta.docx",
+      "similarity_score": 0.92,
+      "jaccard": 0.43,
+      "match_type": "paraphrase / semantic match",
+      "query_passage": "Bhubaneswar, Nagpur and Lucknow are the three we settled on. Every one has a cluster of high-rise housing near a wholesale mandi, and each municipal government already grants food-retail trade licences in those wards, trimming some seven weeks off the paperwork.",
+      "matched_passage": "We picked Bhubaneswar, Nagpur and Lucknow. Each has at least one cluster of high-rise residential towers close to a wholesale mandi, and each city government has already approved commercial licences for food retail in those wards, which saves about seven weeks of paperwork.",
+      "location": {
+        "query_paragraph": 5,
+        "matched_paragraph": 5
+      },
+      "passage_count": 1
+    },
+    {
+      "matched_file": "sub04_delta.docx",
+      "similarity_score": 0.9,
+      "jaccard": 0.5,
+      "match_type": "paraphrase / semantic match",
+      "query_passage": "Our operational fixes come along with the rollout: shift cold-chain contracts from per-trip to per-tonne pricing, build forecasts on 15-minute demand buckets, and relocate packing from the central kitchen into the store. Of savings per order we expect about 9 rupees, sufficient to close the existing gap completely.",
+      "matched_passage": "The operational fixes travel with us: renegotiate cold-chain contracts from a per-trip to a per-tonne basis, forecast demand in 15-minute buckets, and move packing back into the store from the central kitchen. We estimate 9 rupees of savings per order, enough to close the current gap entirely.",
+      "location": {
+        "query_paragraph": 6,
+        "matched_paragraph": 6
+      },
+      "passage_count": 1
     }
   ],
   "multimodal_matches": [],
@@ -40,5 +79,5 @@
     "burstiness": 1.59,
     "note": ""
   },
-  "explanations": "4 of 5 passages (80.0%) closely match other submissions: sub04_delta.docx (4 passages, paraphrase / semantic match). 2 passages shared with up to 4 other files were treated as common template text and ignored. No external source matches. AI likelihood 21.7% (perplexity 298.6, burstiness 1.59)."
+  "explanations": "4 of 5 passages (80.0%) closely match other submissions: sub04_delta.docx (4 passages). 2 passages shared with up to 4 other files were treated as common template text and ignored. No external source matches. AI likelihood 21.7% (perplexity 298.6, burstiness 1.59)."
 }

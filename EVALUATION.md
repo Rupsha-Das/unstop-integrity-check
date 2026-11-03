@@ -81,3 +81,12 @@ miss this; MiniLM embeddings catch it. (The template chunks do score Jaccard
 - **Perplexity AI score vs a trained classifier.** distilgpt2 PPL is zero-shot:
   no labelled data needed, but brittle (see failure #1). A BERT-style detector
   would need labelled training data but would not collapse on encyclopedia text.
+
+## 5. Explainability update
+
+The JSON and Markdown reports now retain every detected query/source passage
+pair rather than only the highest-scoring example for each matched file. Each
+entry includes the passage text, similarity score, and available page,
+paragraph, or video timestamp metadata. This makes multi-passage matches
+reviewable directly from the report. The detector can still miss individual
+paraphrased passages below the configured similarity threshold (failure #3).
