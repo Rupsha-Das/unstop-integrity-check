@@ -79,7 +79,25 @@ def extract_docx(path):
     for i, p in enumerate(document.paragraphs, 1):
         if p.text.strip():
             units.append({"text": " ".join(p.text.split()), "paragraph": i})
+    # Tables often hold financials and other substantive submission content.
+    # Use explicit table/row locations so reports do not call these paragraphs.
+    for table_no, table in enumerate(document.tables, 1):
+        for row_no, row in enumerate(table.rows, 1):
+            text = " | ".join(" ".join(cell.text.split()) for cell in row.cells)
+            if text.strip(" |"):
+                units.append({"text": text, "table": table_no, "row": row_no})
     return units
+
+
+def _sentence_fragments(sentence):
+    """Split an unusually long sentence into bounded word windows."""
+    words = sentence.split()
+    if len(words) <= CHUNK_MAX_WORDS:
+        return [sentence]
+    # Distribute words evenly so the last fragment is not just a few words.
+    count = (len(words) + CHUNK_MAX_WORDS - 1) // CHUNK_MAX_WORDS
+    width = (len(words) + count - 1) // count
+    return [" ".join(words[i:i + width]) for i in range(0, len(words), width)]
 
 
 def _decode_audio(path):
@@ -168,27 +186,30 @@ def chunk_doc(doc):
         current, start, end = [], None, None
         n_words = 0
         for unit in doc["units"]:
-            w = unit["text"].split()
-            if current and n_words + len(w) > CHUNK_MAX_WORDS:
-                text = " ".join(current)
-                if len(text.split()) >= CHUNK_MIN_WORDS:
-                    chunks.append(_chunk(doc["doc_id"], "video", text,
-                                        start=start, end=end))
-                current, start, end, n_words = [], None, None, 0
-            if start is None:
-                start = unit["start"]
-            end = unit["end"]
-            current.append(unit["text"])
-            n_words += len(w)
+            for fragment in _sentence_fragments(unit["text"]):
+                w = fragment.split()
+                if current and n_words + len(w) > CHUNK_MAX_WORDS:
+                    text = " ".join(current)
+                    if len(text.split()) >= CHUNK_MIN_WORDS:
+                        chunks.append(_chunk(doc["doc_id"], "video", text,
+                                            start=start, end=end))
+                    current, start, end, n_words = [], None, None, 0
+                if start is None:
+                    start = unit["start"]
+                end = unit["end"]
+                current.append(fragment)
+                n_words += len(w)
         if current:
             text = " ".join(current)
             if len(text.split()) >= CHUNK_MIN_WORDS:
                 chunks.append(_chunk(doc["doc_id"], "video", text, start=start, end=end))
     else:
         for unit in doc["units"]:
-            loc = {"page": unit.get("page"), "paragraph": unit.get("paragraph")}
-            sentences = SENT_SPLIT_RE.split(unit["text"])
-            prev_last = None  # last sentence of the previously flushed chunk
+            loc = {key: unit[key] for key in ("page", "paragraph", "table", "row")
+                   if key in unit}
+            sentences = [fragment for sent in SENT_SPLIT_RE.split(unit["text"])
+                         for fragment in _sentence_fragments(sent)]
+            prev_last = None  # previous content piece, reused only when it fits
             cur, cur_words = [], 0
             for sent in sentences:
                 sw = len(sent.split())
@@ -196,9 +217,11 @@ def chunk_doc(doc):
                     chunks.append(_chunk(doc["doc_id"], "text", " ".join(cur), **loc))
                     prev_last = cur[-1]
                     cur, cur_words = [], 0
-                if not cur:
-                    cur = [prev_last] if prev_last is not None else []
-                    cur_words = sum(len(s.split()) for s in cur)
+                if not cur and prev_last is not None:
+                    overlap_words = len(prev_last.split())
+                    if overlap_words + sw <= CHUNK_MAX_WORDS:
+                        cur = [prev_last]
+                        cur_words = overlap_words
                 cur.append(sent)
                 cur_words += sw
             if cur:
@@ -209,9 +232,11 @@ def chunk_doc(doc):
     return kept
 
 
-def _chunk(doc_id, modality, text, page=None, paragraph=None, start=None, end=None):
+def _chunk(doc_id, modality, text, page=None, paragraph=None, table=None, row=None,
+           start=None, end=None):
     return {"chunk_id": "", "doc_id": doc_id, "modality": modality, "text": text,
-            "page": page, "paragraph": paragraph, "start": start, "end": end}
+            "page": page, "paragraph": paragraph, "table": table, "row": row,
+            "start": start, "end": end}
 
 
 def chunk_docs(docs):

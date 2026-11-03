@@ -9,8 +9,10 @@ summary — designed so a judge can review 13 files in ~3 minutes.
 
 - Extracts text (PyMuPDF / python-docx) and speech (faster-whisper, `tiny.en`,
   transcribes the audio track of each MP4 into time-stamped segments).
-- Chops every document into passages (chunks) of ≤120 words that never cross a
-  paragraph or video segment, each keeping its page / paragraph number / timestamp.
+- Chops text into passages of ≤120 words without crossing paragraph boundaries;
+  unusually long sentences are split into bounded pieces. Video chunks pack
+  consecutive transcript segments and retain their start/end timestamps.
+- Extracts DOCX paragraphs and table rows, with paragraph or table/row locations.
 - Embeds everything with `sentence-transformers/all-MiniLM-L6-v2` (384 numbers),
   builds a FAISS `IndexFlatIP`, and for every chunk finds its nearest neighbours
   **in other files only**:
@@ -123,16 +125,20 @@ Failure analysis and design trade-offs: [EVALUATION.md](EVALUATION.md).
 
 ## Assumptions
 
-- Chunks are ≤120 words (~160 tokens): small enough for precise citations
-  (page numbers, timestamps, paragraph indices).
+- Chunks are capped at 120 words (roughly 160 tokens) for precise citations.
+  The assignment's 200–400-token chunk size is an example rather than a hard
+  requirement; this smaller setting trades some context for more precise
+  passage-level references. Long sentences are split to preserve the cap.
 - Overlap is flagged on **both** sides of a copy pair (sub02 and sub03 both get
   reports); deciding who copied from whom is a human decision. The manifest in
   `sample_submissions/dataset_manifest.json` carries the ground-truth labels.
-- DOCX has no real pages, so citations use paragraph numbers.
+- DOCX has no real pages, so citations use paragraph numbers or table/row
+  numbers. Table rows are extracted as separate units.
 - `reference_corpus/` is a small simulated "web": 6 neutral encyclopedia-style
   texts on quick-commerce topics.
-- The AI score is a **heuristic** (perplexity + burstiness), not a trained
-  detector; see EVALUATION.md §3 for where it fails. It needs ≥5 sentences of
+- The AI score is a **heuristic indicator**, not a calibrated probability or
+  proof of AI authorship (perplexity + burstiness); see EVALUATION.md §3 for
+  where it fails. It needs ≥5 sentences of
   ≥5 words, so a very short pitch transcript can report
   `ai_generated_probability: null` with the reason in `ai_details.note`; when it
   does compute, speech scores very low (it looks nothing like AI prose).

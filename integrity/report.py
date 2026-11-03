@@ -31,6 +31,8 @@ def _loc(chunk, prefix):
         return {f"{prefix}_page": chunk["page"]}
     if chunk.get("paragraph") is not None:
         return {f"{prefix}_paragraph": chunk["paragraph"]}
+    if chunk.get("table") is not None:
+        return {f"{prefix}_table": chunk["table"], f"{prefix}_row": chunk["row"]}
     return {}
 
 
@@ -161,13 +163,16 @@ def _esc(t):
 
 
 def _loc_label(loc, prefix, fallback):
-    for k in (f"{prefix}_page", f"{prefix}_paragraph", f"{prefix}_timestamp"):
+    for k in (f"{prefix}_page", f"{prefix}_paragraph", f"{prefix}_timestamp",
+              f"{prefix}_table"):
         if k in loc:
             v = loc[k]
             if k.endswith("_page"):
                 return f"page {v}"
             if k.endswith("_paragraph"):
                 return f"paragraph {v}"
+            if k.endswith("_table"):
+                return f"table {v}, row {loc.get(f'{prefix}_row', '?')}"
             return str(v)
     return fallback
 
