@@ -33,7 +33,7 @@
         "burstiness": null,
         "note": "too little text"
       },
-      "explanations": "1 of 1 passages (100.0%) closely match other submissions: sub01_alpha.pdf (1 passage, near-exact copy). The match against sub01_alpha.pdf (video) crosses modality (speech vs writing). No external source matches. AI likelihood not computed from this file type."
+      "explanations": "1 of 1 passages (100.0%) closely match other submissions: sub01_alpha.pdf (1 passage, near-exact copy). The match against sub01_alpha.pdf (video) crosses modality (speech vs writing). No external source matches. AI likelihood not computed (too little text)."
     },
     {
       "document_id": "pitch02_lima.mp4",
@@ -54,7 +54,7 @@
         "burstiness": 0.47,
         "note": ""
       },
-      "explanations": "No other submission matches (1 passages checked). No external source matches. AI likelihood 28% (perplexity 473.1, burstiness 0.47)."
+      "explanations": "No other submission matches (1 passages checked). No external source matches. AI likelihood 28.4% (perplexity 473.1, burstiness 0.47)."
     },
     {
       "document_id": "pitch03_mike.mp4",
@@ -119,7 +119,7 @@
         "burstiness": 1.52,
         "note": ""
       },
-      "explanations": "1 of 7 passages (14.3%) closely match other submissions: pitch01_kilo.mp4 (1 passage, near-exact copy). The match against pitch01_kilo.mp4 (video) crosses modality (speech vs writing). 2 passages shared with up to 4 other files were treated as common template text and ignored. No external source matches. AI likelihood 18% (perplexity 317.7, burstiness 1.52)."
+      "explanations": "1 of 5 passages (20.0%) closely match other submissions: pitch01_kilo.mp4 (1 passage, near-exact copy). The match against pitch01_kilo.mp4 (video) crosses modality (speech vs writing). 2 passages shared with up to 4 other files were treated as common template text and ignored. No external source matches. AI likelihood 17.6% (perplexity 317.7, burstiness 1.52)."
     },
     {
       "document_id": "sub02_bravo.pdf",
@@ -163,7 +163,7 @@
         "burstiness": 0.8,
         "note": ""
       },
-      "explanations": "5 of 7 passages (71.4%) closely match other submissions: sub03_charlie.docx (5 passages, near-exact copy). 2 passages shared with up to 4 other files were treated as common template text and ignored. No external source matches. AI likelihood 50% (perplexity 198.6, burstiness 0.8)."
+      "explanations": "5 of 5 passages (100.0%) closely match other submissions: sub03_charlie.docx (5 passages, near-exact copy). 2 passages shared with up to 4 other files were treated as common template text and ignored. No external source matches. AI likelihood 49.8% (perplexity 198.6, burstiness 0.8)."
     },
     {
       "document_id": "sub03_charlie.docx",
@@ -207,7 +207,7 @@
         "burstiness": 1.7,
         "note": ""
       },
-      "explanations": "5 of 7 passages (71.4%) closely match other submissions: sub02_bravo.pdf (5 passages, near-exact copy). 2 passages shared with up to 4 other files were treated as common template text and ignored. No external source matches. AI likelihood 27% (perplexity 275.2, burstiness 1.7)."
+      "explanations": "5 of 5 passages (100.0%) closely match other submissions: sub02_bravo.pdf (5 passages, near-exact copy). 2 passages shared with up to 4 other files were treated as common template text and ignored. No external source matches. AI likelihood 26.7% (perplexity 275.2, burstiness 1.7)."
     },
     {
       "document_id": "sub04_delta.docx",
@@ -251,7 +251,7 @@
         "burstiness": 1.89,
         "note": ""
       },
-      "explanations": "4 of 7 passages (57.1%) closely match other submissions: sub05_echo.docx (4 passages, paraphrase / semantic match). 2 passages shared with up to 4 other files were treated as common template text and ignored. No external source matches. AI likelihood 32% (perplexity 248.3, burstiness 1.89)."
+      "explanations": "4 of 5 passages (80.0%) closely match other submissions: sub05_echo.docx (4 passages, paraphrase / semantic match). 2 passages shared with up to 4 other files were treated as common template text and ignored. No external source matches. AI likelihood 32.5% (perplexity 248.3, burstiness 1.89)."
     },
     {
       "document_id": "sub05_echo.docx",
@@ -295,7 +295,7 @@
         "burstiness": 1.59,
         "note": ""
       },
-      "explanations": "4 of 7 passages (57.1%) closely match other submissions: sub04_delta.docx (4 passages, paraphrase / semantic match). 2 passages shared with up to 4 other files were treated as common template text and ignored. No external source matches. AI likelihood 22% (perplexity 298.6, burstiness 1.59)."
+      "explanations": "4 of 5 passages (80.0%) closely match other submissions: sub04_delta.docx (4 passages, paraphrase / semantic match). 2 passages shared with up to 4 other files were treated as common template text and ignored. No external source matches. AI likelihood 21.7% (perplexity 298.6, burstiness 1.59)."
     },
     {
       "document_id": "sub06_foxtrot.pdf",
@@ -316,7 +316,7 @@
         "burstiness": 0.65,
         "note": ""
       },
-      "explanations": "No other submission matches (5 passages checked). No external source matches. AI likelihood 76% (perplexity 112.2, burstiness 0.65)."
+      "explanations": "No other submission matches (5 passages checked). No external source matches. AI likelihood 76.3% (perplexity 112.2, burstiness 0.65)."
     },
     {
       "document_id": "sub07_golf.pdf",
@@ -337,7 +337,7 @@
         "burstiness": 1.07,
         "note": ""
       },
-      "explanations": "No other submission matches (4 passages checked). No external source matches. AI likelihood 23% (perplexity 292.9, burstiness 1.07)."
+      "explanations": "No other submission matches (4 passages checked). No external source matches. AI likelihood 22.9% (perplexity 292.9, burstiness 1.07)."
     },
     {
       "document_id": "sub08_hotel.docx",
@@ -371,7 +371,7 @@
         "burstiness": 0.59,
         "note": ""
       },
-      "explanations": "No other submission matches (5 passages checked). An external source matches: quick_commerce.txt (0.9). AI likelihood 66% (perplexity 187.0, burstiness 0.59)."
+      "explanations": "No other submission matches (5 passages checked). An external source matches: quick_commerce.txt (0.9). AI likelihood 66.2% (perplexity 187.0, burstiness 0.59)."
     },
     {
       "document_id": "sub09_india.docx",
@@ -392,7 +392,7 @@
         "burstiness": 0.83,
         "note": ""
       },
-      "explanations": "No other submission matches (5 passages checked). No external source matches. AI likelihood 41% (perplexity 232.6, burstiness 0.83)."
+      "explanations": "No other submission matches (5 passages checked). No external source matches. AI likelihood 40.8% (perplexity 232.6, burstiness 0.83)."
     },
     {
       "document_id": "sub10_juliet.pdf",

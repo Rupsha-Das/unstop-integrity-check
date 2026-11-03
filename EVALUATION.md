@@ -17,22 +17,22 @@ Pairs: 4/4 found. Template boilerplate: 5/5 files. Degraded files skipped: 2/2.
 The whole ground-truth story is recovered: exact copy (sub02/sub03, cosine 1.0),
 paraphrase (sub04/sub05, cosine 0.95), cross-modal (sub01/pitch01, cosine 0.98),
 external copy (sub08/quick_commerce.txt, 0.90), and every original file is clean,
-including the near-miss pair sub07/sub09 (best cosine 0.58, threshold 0.80).
+including the near-miss pair sub07/sub09 (best cosine 0.53, threshold 0.80).
 
 ## 2. Jaccard vs cosine (the point of embedding search)
 
 For the best sub04/05 chunk pair: cosine similarity **0.95** but word-overlap
-Jaccard only **0.48** — the paraphrase ("We believe GreenCart should expand now…"
-vs "The case for moving now is the one we intend to defend…") shares almost half
-its word forms, far below the 0.6 "near-exact" cut-off. A plagiarism checker
-relying on word overlap would miss this; MiniLM embeddings catch it. (The
-template chunks do score Jaccard 1.0, but they are identified as boilerplate and
-excluded from scoring.)
+Jaccard only **0.48** — the paraphrase ("Tier-2 expansion changes the cost line
+rather than the revenue line…" vs "What expansion into tier-2 cities alters is
+the cost line, not the revenue line…") shares under half its word forms, below
+the 0.6 "near-exact" cut-off. A plagiarism checker relying on word overlap would
+miss this; MiniLM embeddings catch it. (The template chunks do score Jaccard
+1.0, but they are identified as boilerplate and excluded from scoring.)
 
 ## 3. Real failures / known limitations (confirmed on this run)
 
 1. **AI detector is a weak heuristic.** Final precision on the `ai` signal is
-   0.55 → in the confusion table 1 FP: `sub08_hotel.docx` scores "AI likelihood
+   0.5 → in the confusion table 1 FP: `sub08_hotel.docx` scores "AI likelihood
    66%". The cause is real and instructive: sub08 contains the verbatim
    encyclopedia paragraph copied from the reference corpus, and neutral factual
    prose has exactly the properties of AI text: low perplexity (187) and low
@@ -40,22 +40,30 @@ excluded from scoring.)
    source attribution first, style second. Fix: run detection only on passages
    that pass the source checks, or use a fine-tuned detector calibrated on
    labelled data.
-2. **Speech transcription quality.** Whisper `tiny.en` mishears proper nouns:
-   "Indore" → "Indoor", "Jaipur" → "Jepur", "reuses" → "green car tree uses".
-   The embeddings still matched (cross-modal cosine 0.98), and the `initial_prompt`
-   recovered most proper nouns, but on noisy or accented uploads below 0.90 the
-   match would degrade. Fix: larger Whisper model + number/proper-noun
-   normalisation.
-3. **Chunk-level boilerplate misses mixed chunks.** Each template document
-   carries the shared 150-word template; in sub01 only 1 of its 2 template
-   chunks crossed ≥3 other files (cosine ≤0.85) — the continuation chunk
-   ("…Third, what operational changes are needed…") sits below the 0.85
-   boilerplate similarity and its file flagged it as a peer match instead. Fix:
-   sentence-level template matching instead of whole-chunk similarity.
+2. **Speech transcription quality.** Whisper `tiny.en` garbles phrases even with
+   the domain `initial_prompt`: "GreenCart reuses" is heard as "GreenCartry
+   uses" (Indore/Coimbatore/Jaipur *are* recovered by the prompt). It also
+   flips commas into sentence breaks between runs, which is why the pitch01 AI
+   score comes back `null` (3 sentences) on one run and `0.0` (5 sentences) on
+   the next — an ambiguous result, though peer/external scores and every
+   confusion-table number are unaffected. The embeddings still matched
+   (cross-modal cosine 0.98), but on noisy or accented uploads a match sitting
+   near the 0.80 cut-off could degrade below it. Fix: larger Whisper model +
+   number/proper-noun normalisation and pinned decoding settings for
+   reproducible transcripts.
+3. **Chunk-level miss inside a detected paraphrase pair.** sub04/sub05 are
+   correctly flagged as a pair (best cosine 0.95), but their opening paragraphs
+   ("We believe GreenCart should expand now…" vs "The case for moving now is the
+   one we intend to defend…") embed at only **0.67** — below the 0.80 cut-off, so
+   sub04 scores 80% peer instead of 100%, and a checker judging per-chunk would
+   report a false negative on that paragraph (its highest neighbour is actually
+   the shared template at 0.70). Fix: align chunks to paragraph pairs before
+   embedding, or lower the threshold with a second-stage re-rank to hold
+   precision.
 4. **Threshold overfitting.** 0.80 / 0.85 / "≥3 files" were tuned by hand on 13
    files and on this exact writing style; on a different corpus the same numbers
    will not transfer (sub02+sub03 vs everything else is close in the matrix —
-   original human texts on one narrow topic land at 0.55–0.70, which is not a
+   original human texts on one narrow topic land at 0.52–0.70, which is not a
    comfortable margin). Fix: tune on a larger labelled set, report scores instead
    of binary flags.
 

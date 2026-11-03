@@ -45,3 +45,24 @@ def test_empty_file_skipped(tmp_path):
     doc = extract_file(f)
     assert doc["status"] == "skipped"
     assert doc["reason"] == "empty file"
+
+
+def test_two_threshold_neighbours_in_one_target_doc():
+    # a query matching TWO chunks of the same other file must keep the best
+    # score (regression: previously crashed comparing float > chunk dict)
+    from integrity.extract import _chunk
+    base = ("The board approved a phased entry into three tier-2 cities after "
+            "two quarters of pilot data and a careful review of unit economics.")
+    texts = [("a.pdf", "text", base + " Internal detail one."),
+             ("a.pdf", "text", base + " Internal detail two."),
+             ("b.docx", "text", base)]
+    chunks = []
+    for i, (doc_id, modality, text) in enumerate(texts):
+        c = _chunk(doc_id, modality, text, page=1)
+        c["chunk_id"] = f"{doc_id}#{i}"
+        chunks.append(c)
+    vecs = embed([c["text"] for c in chunks])
+    idx = build_index(vecs)
+    peer = find_matches(chunks, vecs, chunks, idx, exclude_same_doc=True)
+    hits = [m for m in peer["b.docx#2"]["matches"] if m[0]["doc_id"] == "a.pdf"]
+    assert len(hits) == 1 and hits[0][1] >= 0.80

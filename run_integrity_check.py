@@ -19,10 +19,15 @@ def main():
     ap = argparse.ArgumentParser(
         prog="integrity-check",
         description="Multimodal plagiarism check for PDF/DOCX/MP4 submissions. "
-                    "With no arguments it checks ./sample_submissions into ./reports "
-                    "and evaluates the results.")
-    ap.add_argument("--input_dir", default="./sample_submissions",
-                    help="folder of submissions to check (default ./sample_submissions)")
+                    "Run it on a folder (default ./sample_submissions) or a single "
+                    "file. Without arguments it checks ./sample_submissions into "
+                    "./reports and evaluates the results.")
+    ap.add_argument("target", nargs="?", default=None,
+                    help="single PDF/DOCX/MP4 file or a folder of them "
+                         "(default ./sample_submissions). A file is checked against "
+                         "the other files in its folder + the reference corpus.")
+    ap.add_argument("--input_dir", default=None,
+                    help="(deprecated) folder of submissions; same as passing a folder as target")
     ap.add_argument("--output_dir", default="./reports",
                     help="folder for reports (default ./reports)")
     ap.add_argument("--reference_dir", default="./reference_corpus",
@@ -37,7 +42,26 @@ def main():
     out = Path(args.output_dir)
     out.mkdir(parents=True, exist_ok=True)
 
-    docs = extract_folder(args.input_dir)
+    # resolve target: none -> default folder; dir -> that folder; file -> query doc
+    if args.input_dir:
+        args.target = args.input_dir  # old flag still works
+    if args.target and not Path(args.target).exists():
+        print(f"error: '{args.target}' does not exist", flush=True)
+        return 2
+    single = None
+    if args.target and Path(args.target).is_file():
+        single = Path(args.target).name
+        input_dir = str(Path(args.target).parent) or "."
+    else:
+        input_dir = str(Path(args.target)) if args.target else "./sample_submissions"
+    print(f"Checking: {input_dir}" + (f" (single file: {single})" if single else ""),
+          flush=True)
+
+    docs = extract_folder(input_dir)
+    if single and not any(d["doc_id"] == single for d in docs):
+        print(f"error: could not process '{single}' (unsupported type or unreadable)",
+              flush=True)
+        return 2
     chunks = chunk_docs(docs)
     peer = {c["chunk_id"]: {"is_boilerplate": False, "shared_with_n_files": 0,
                             "matches": []} for c in chunks}
@@ -57,6 +81,8 @@ def main():
 
     reports = []
     for doc in docs:
+        if single and doc["doc_id"] != single:
+            continue  # single-file mode: siblings only serve as matching context
         ai = (ai_score(doc_text(doc)) if doc["status"] == "ok"
               else {"probability": None, "perplexity": None, "burstiness": None,
                     "note": "skipped"})
@@ -76,8 +102,14 @@ def main():
                  f"{sc['peer_similarity_percentage']} | {sc['external_similarity_percentage']}"
                  f" | {sc['ai_generated_probability']} | {top}")
     print("\n".join(s))
-    print(f"\n-> {len(reports) * 2 + 2} report files written to {out} "
+    print(f"\n-> report files written to {out} "
           f"(summary: {Path(args.output_dir) / 'summary.md'})")
+
+    if single:
+        md = out / f"{reports[0]['document_id']}.md"
+        print("\n" + "=" * 70 + "\n")
+        print(md.read_text(encoding="utf-8"))
+        return 0
 
     if not args.no_eval:
         try:

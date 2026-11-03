@@ -45,17 +45,34 @@ That single command extracts, transcribes, matches and scores everything in
 `summary.md`) and evaluates itself against the dataset manifest — no arguments
 needed.
 
-Options:
+The explicit form from the assessment brief works the same way (run it inside
+the synced environment — `source .venv/bin/activate` on Linux/macOS,
+`.venv\Scripts\activate` on Windows, or prefix it with `uv run`):
 
 ```bash
-uv run integrity-check --input_dir ./my_submissions --output_dir ./out   # own folders
-uv run integrity-check --reference_dir ./reference_corpus               # custom 'web'
-uv run integrity-check --no-eval                                        # skip evaluation
-uv run integrity-check -v                                               # show progress logs
+python run_integrity_check.py --input_dir ./sample_submissions --output_dir ./rep
 ```
 
+## Use it on your own files
+
+```bash
+uv run integrity-check my_folder                 # a folder of submissions
+uv run integrity-check my_draft.docx             # ONE file: checked against the
+                                                 # other files in its folder
+                                                 # + the reference corpus; the
+                                                 # report is printed in the CLI
+uv run integrity-check my_draft.docx --output_dir ./out
+uv run integrity-check --input_dir ./my_submissions --output_dir ./out   # folders
+uv run integrity-check --reference_dir ./my_web  # custom 'web' texts
+uv run integrity-check --no-eval                 # skip evaluation
+uv run integrity-check -v                        # show progress logs
+```
+
+Supported types: `.pdf`, `.docx`, `.mp4` (txt/docx/pdf text, mp4 audio).
+Unsupported, empty or silent files are reported as `UNPROCESSED`, never crash.
+
 Evaluation can also be run/printed separately with
-`uv run evaluate.py [report_dir]`, and `uv run pytest -q` runs 3 core tests.
+`uv run evaluate.py [report_dir]`, and `uv run pytest -q` runs the core tests.
 
 ## How it works
 
@@ -87,6 +104,22 @@ corpus) and `ai_generated_probability`. Risk = HIGH/MEDIUM/LOW from the
 configured cut-offs: peer/external 40 = HIGH, 15 = MEDIUM, ai 80 = HIGH,
 50 = MEDIUM (see `integrity/config.py`).
 
+## Evaluation
+
+Every run re-scores itself against the ground truth in
+`sample_submissions/dataset_manifest.json` (see `evaluate.py`; run manually
+with `uv run evaluate.py [report_dir]`). On the 13-file dataset:
+
+| signal | precision | recall | FP | FN |
+|---|---|---|---|---|
+| peer | 1.0 | 1.0 | 0 | 0 |
+| external | 1.0 | 1.0 | 0 | 0 |
+| ai | 0.5 | 1.0 | 1 | 0 |
+
+All 4 ground-truth pairs found (exact copy, paraphrase, cross-modal, external),
+5/5 template files recognised as boilerplate, 2/2 degraded files skipped.
+Failure analysis and design trade-offs: [EVALUATION.md](EVALUATION.md).
+
 ## Assumptions
 
 - Chunks are ≤120 words (~160 tokens): small enough for precise citations
@@ -98,7 +131,10 @@ configured cut-offs: peer/external 40 = HIGH, 15 = MEDIUM, ai 80 = HIGH,
 - `reference_corpus/` is a small simulated "web": 6 neutral encyclopedia-style
   texts on quick-commerce topics.
 - The AI score is a **heuristic** (perplexity + burstiness), not a trained
-  detector; see EVALUATION.md §3 for where it fails.
+  detector; see EVALUATION.md §3 for where it fails. It needs ≥5 sentences of
+  ≥5 words, so a very short pitch transcript can report
+  `ai_generated_probability: null` with the reason in `ai_details.note`; when it
+  does compute, speech scores very low (it looks nothing like AI prose).
 - Matching is chunk-level (nearest neighbours); near-duplicate paragraphs
   spanning a chunk boundary are caught by the 1-sentence overlap.
 
@@ -129,7 +165,12 @@ configured cut-offs: peer/external 40 = HIGH, 15 = MEDIUM, ai 80 = HIGH,
 - **Cost (rough):** tens of dollars of spot GPU per 10k-submission challenge;
   storage negligible.
 
-## AI-use disclosure
+## AI-Assisted Development & Disclosure
 
-Planning, boilerplate and debugging helped by AI assistants (Claude, GLM); I
-reviewed all design decisions.
+AI tools were incorporated into my development workflow at different stages of this project. I used ChatGPT, GitHub Copilot, Claude, and GLM (where applicable) to assist with architectural exploration, implementation planning, code suggestions, boilerplate generation, debugging, troubleshooting, and documentation.
+
+I believe AI-assisted development is an important part of modern software engineering. These tools helped me explore alternative approaches, accelerate repetitive tasks, and work through technical challenges more efficiently.
+
+However, AI-generated suggestions were not treated as final implementations. I reviewed and adapted the suggestions, made the final engineering decisions, integrated the components, and validated the system through testing against the assessment scenarios.
+
+I take responsibility for the overall implementation, system integration, evaluation methodology, technical decisions, and final submission.

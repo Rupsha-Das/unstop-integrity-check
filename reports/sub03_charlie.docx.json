@@ -40,5 +40,5 @@
     "burstiness": 1.7,
     "note": ""
   },
-  "explanations": "5 of 7 passages (71.4%) closely match other submissions: sub02_bravo.pdf (5 passages, near-exact copy). 2 passages shared with up to 4 other files were treated as common template text and ignored. No external source matches. AI likelihood 27% (perplexity 275.2, burstiness 1.7)."
+  "explanations": "5 of 5 passages (100.0%) closely match other submissions: sub02_bravo.pdf (5 passages, near-exact copy). 2 passages shared with up to 4 other files were treated as common template text and ignored. No external source matches. AI likelihood 26.7% (perplexity 275.2, burstiness 1.7)."
 }

@@ -40,5 +40,5 @@
     "burstiness": 1.89,
     "note": ""
   },
-  "explanations": "4 of 7 passages (57.1%) closely match other submissions: sub05_echo.docx (4 passages, paraphrase / semantic match). 2 passages shared with up to 4 other files were treated as common template text and ignored. No external source matches. AI likelihood 32% (perplexity 248.3, burstiness 1.89)."
+  "explanations": "4 of 5 passages (80.0%) closely match other submissions: sub05_echo.docx (4 passages, paraphrase / semantic match). 2 passages shared with up to 4 other files were treated as common template text and ignored. No external source matches. AI likelihood 32.5% (perplexity 248.3, burstiness 1.89)."
 }

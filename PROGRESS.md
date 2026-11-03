@@ -58,6 +58,7 @@ Rules: one step → run V → matches E? tick + 1 log line : fix (3 fails → ST
 - 1-page PDFs keep drawn header as a unit (spec filter only for pages>=2); dropped later by CHUNK_MIN_WORDS.
 - pytest needs pythonpath=["."] in pyproject (test module import).
 - Production CLI: `uv run integrity-check` (console script via [project.scripts]) with zero-arg defaults (sample_submissions -> reports), runs evaluation after the check; `--no-eval`, `-v` available; default logging is WARNING (HF/whisper INFO spam hidden), SPEC run command still works with explicit flags.
+- CLI accepts a positional target: folder (all files checked) or single file (that file checked vs its folder's other files + reference corpus; its report printed in the CLI; eval skipped). Bad/missing target -> error, exit 2.
 - PyMuPDF 2.0 merges whole reportlab pages into one text block -> PDF granularity = page-level paragraphs; chunking still ≤120 words.
 
 ## Log
@@ -83,6 +84,7 @@ Rules: one step → run V → matches E? tick + 1 log line : fix (3 fails → ST
 6.3 ok: README.md written
 6.4 ok: clean rerun; run ok, eval ok, pytest 3 passed
 6.5 ok: integrity-check one-command CLI; exit 0; pytest 3 passed
+6.6 ok: single-file + single-dir targets; single-file report printed in CLI; pytest 3 passed
 
 ## STOP messages (send to the user, then wait)
 - **STOP-UV:** "Please install uv, then reply 'done': `curl -LsSf https://astral.sh/uv/install.sh | sh` (Arch: `sudo pacman -S uv`)"

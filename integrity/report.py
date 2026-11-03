@@ -80,15 +80,12 @@ def build_report(doc, chunks, peer, ext, ai):
                "shared_with_n_files": peer[c["chunk_id"]]["shared_with_n_files"]}
               for c in own if peer[c["chunk_id"]]["is_boilerplate"]]
 
-    if own:
-        scorable = [c for c in own if not peer[c["chunk_id"]]["is_boilerplate"]]
-        if scorable:
-            flagged = sum(1 for c in scorable if peer[c["chunk_id"]]["matches"])
-            peer_pct = round(100 * flagged / len(scorable), 1)
-            eflag = sum(1 for c in scorable if ext[c["chunk_id"]]["matches"])
-            ext_pct = round(100 * eflag / len(scorable), 1)
-        else:
-            flagged, peer_pct, ext_pct = 0, 0.0, 0.0
+    scorable = [c for c in own if not peer[c["chunk_id"]]["is_boilerplate"]]
+    if scorable:
+        flagged = sum(1 for c in scorable if peer[c["chunk_id"]]["matches"])
+        peer_pct = round(100 * flagged / len(scorable), 1)
+        eflag = sum(1 for c in scorable if ext[c["chunk_id"]]["matches"])
+        ext_pct = round(100 * eflag / len(scorable), 1)
     else:
         flagged, peer_pct, ext_pct = 0, 0.0, 0.0
 
@@ -106,7 +103,8 @@ def build_report(doc, chunks, peer, ext, ai):
         "ai_details": {"perplexity": ai["perplexity"], "burstiness": ai["burstiness"],
                        "note": ai["note"]},
     }
-    rep["explanations"] = _explain(rep, len(own), flagged)
+    # denominator = scorable passages so the stated % matches peer_similarity_percentage
+    rep["explanations"] = _explain(rep, len(scorable), flagged)
     return rep
 
 
@@ -151,10 +149,11 @@ def _explain(rep, total, flagged):
     else:
         ext = " No external source matches."
     if rep["scores"]["ai_generated_probability"] is None:
-        tail = " AI likelihood not computed from this file type."
+        why = rep["ai_details"].get("note") or "not available"
+        tail = f" AI likelihood not computed ({why})."
     else:
         d = rep["ai_details"]
-        tail = (f" AI likelihood {round(rep['scores']['ai_generated_probability'])}% "
+        tail = (f" AI likelihood {round(rep['scores']['ai_generated_probability'], 1)}% "
                 f"(perplexity {d['perplexity']}, burstiness {d['burstiness']}).")
     return (lead + mid + ext + tail).strip()
 
@@ -251,7 +250,8 @@ def write_summary(all_reports, matrix, out_dir):
     for a in names:
         cells = [a]
         for b in names:
-            v = "-" if a == b else f"{best.get((a, b), best.get((b, a))):.2f}"
+            bv = None if a == b else best.get((a, b), best.get((b, a)))
+            v = "-" if bv is None else f"{bv:.2f}"
             cells.append(v)
         md.append("| " + " | ".join(cells) + " |")
     (d / "summary.md").write_text("\n".join(md) + "\n", encoding="utf-8")

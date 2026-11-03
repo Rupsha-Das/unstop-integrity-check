@@ -4,7 +4,7 @@
 |---|---|---|
 | 0.0 | 20.0 | 66.2 |
 
-**Summary:** No other submission matches (5 passages checked). An external source matches: quick_commerce.txt (0.9). AI likelihood 66% (perplexity 187.0, burstiness 0.59).
+**Summary:** No other submission matches (5 passages checked). An external source matches: quick_commerce.txt (0.9). AI likelihood 66.2% (perplexity 187.0, burstiness 0.59).
 
 ## External matches
 

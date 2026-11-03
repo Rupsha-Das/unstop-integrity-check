@@ -4,7 +4,7 @@
 |---|---|---|
 | 100.0 | 0.0 |  |
 
-**Summary:** 1 of 1 passages (100.0%) closely match other submissions: sub01_alpha.pdf (1 passage, near-exact copy). The match against sub01_alpha.pdf (video) crosses modality (speech vs writing). No external source matches. AI likelihood not computed from this file type.
+**Summary:** 1 of 1 passages (100.0%) closely match other submissions: sub01_alpha.pdf (1 passage, near-exact copy). The match against sub01_alpha.pdf (video) crosses modality (speech vs writing). No external source matches. AI likelihood not computed (too little text).
 
 ## Cross-modal matches
 

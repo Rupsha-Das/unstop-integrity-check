@@ -1,0 +1,531 @@
+{
+  "reports": [
+    {
+      "document_id": "pitch01_kilo.mp4",
+      "status": "ok",
+      "skip_reason": null,
+      "total_integrity_risk": "HIGH",
+      "scores": {
+        "peer_similarity_percentage": 100.0,
+        "external_similarity_percentage": 0.0,
+        "ai_generated_probability": null
+      },
+      "peer_matches": [],
+      "multimodal_matches": [
+        {
+          "matched_file": "sub01_alpha.pdf",
+          "similarity_score": 0.98,
+          "jaccard": 0.89,
+          "match_type": "near-exact copy",
+          "query_passage": "Our recommendation is a phased entry. Starting with Indore, Coimbatore and Jaipur, these three cities combine high smartphone penetration with dense residential clusters, which keeps delivery distances short. We estimate that a single dark store in each city can break even at around nine hundred orders per day, which is reachable within eight months if GreenCartry uses its existing supply of contracts.",
+          "matched_passage": "Our recommendation is a phased entry, starting with Indore, Coimbatore and Jaipur. These three cities combine high smartphone penetration with dense residential clusters, which keeps delivery distances short. We estimate that a single dark store in each city can break even at around nine hundred orders per day, which is reachable within eight months if GreenCart reuses its existing supplier contracts.",
+          "location": {
+            "query_timestamp": "00:00:00 - 00:00:30",
+            "matched_page": 2
+          },
+          "passage_count": 1
+        }
+      ],
+      "external_matches": [],
+      "excluded_boilerplate": [],
+      "ai_details": {
+        "perplexity": null,
+        "burstiness": null,
+        "note": "too little text"
+      },
+      "explanations": "1 of 1 passages (100.0%) closely match other submissions: sub01_alpha.pdf (1 passage, near-exact copy). The match against sub01_alpha.pdf (video) crosses modality (speech vs writing). No external source matches. AI likelihood not computed (too little text)."
+    },
+    {
+      "document_id": "pitch02_lima.mp4",
+      "status": "ok",
+      "skip_reason": null,
+      "total_integrity_risk": "LOW",
+      "scores": {
+        "peer_similarity_percentage": 0.0,
+        "external_similarity_percentage": 0.0,
+        "ai_generated_probability": 28.4
+      },
+      "peer_matches": [],
+      "multimodal_matches": [],
+      "external_matches": [],
+      "excluded_boilerplate": [],
+      "ai_details": {
+        "perplexity": 473.1,
+        "burstiness": 0.47,
+        "note": ""
+      },
+      "explanations": "No other submission matches (1 passages checked). No external source matches. AI likelihood 28.4% (perplexity 473.1, burstiness 0.47)."
+    },
+    {
+      "document_id": "pitch03_mike.mp4",
+      "status": "skipped",
+      "skip_reason": "no audio track",
+      "total_integrity_risk": "UNPROCESSED",
+      "scores": {
+        "peer_similarity_percentage": null,
+        "external_similarity_percentage": null,
+        "ai_generated_probability": null
+      },
+      "peer_matches": [],
+      "multimodal_matches": [],
+      "external_matches": [],
+      "excluded_boilerplate": [],
+      "ai_details": {
+        "perplexity": null,
+        "burstiness": null,
+        "note": "skipped"
+      },
+      "explanations": "File could not be processed: no audio track."
+    },
+    {
+      "document_id": "sub01_alpha.pdf",
+      "status": "ok",
+      "skip_reason": null,
+      "total_integrity_risk": "MEDIUM",
+      "scores": {
+        "peer_similarity_percentage": 20.0,
+        "external_similarity_percentage": 0.0,
+        "ai_generated_probability": 17.6
+      },
+      "peer_matches": [],
+      "multimodal_matches": [
+        {
+          "matched_file": "pitch01_kilo.mp4",
+          "similarity_score": 0.98,
+          "jaccard": 0.89,
+          "match_type": "near-exact copy",
+          "query_passage": "Our recommendation is a phased entry, starting with Indore, Coimbatore and Jaipur. These three cities combine high smartphone penetration with dense residential clusters, which keeps delivery distances short. We estimate that a single dark store in each city can break even at around nine hundred orders per day, which is reachable within eight months if GreenCart reuses its existing supplier contracts.",
+          "matched_passage": "Our recommendation is a phased entry. Starting with Indore, Coimbatore and Jaipur, these three cities combine high smartphone penetration with dense residential clusters, which keeps delivery distances short. We estimate that a single dark store in each city can break even at around nine hundred orders per day, which is reachable within eight months if GreenCartry uses its existing supply of contracts.",
+          "location": {
+            "query_page": 2,
+            "matched_timestamp": "00:00:00 - 00:00:30"
+          },
+          "passage_count": 1
+        }
+      ],
+      "external_matches": [],
+      "excluded_boilerplate": [
+        {
+          "passage": "GreenCart Case Competition 2026: Problem Statement. GreenCart is a five-year-old online grocery delivery company operati",
+          "shared_with_n_files": 4
+        },
+        {
+          "passage": "Second, if it expands, which three cities should it enter first and why? Third, what operational changes are needed to m",
+          "shared_with_n_files": 4
+        }
+      ],
+      "ai_details": {
+        "perplexity": 317.7,
+        "burstiness": 1.52,
+        "note": ""
+      },
+      "explanations": "1 of 5 passages (20.0%) closely match other submissions: pitch01_kilo.mp4 (1 passage, near-exact copy). The match against pitch01_kilo.mp4 (video) crosses modality (speech vs writing). 2 passages shared with up to 4 other files were treated as common template text and ignored. No external source matches. AI likelihood 17.6% (perplexity 317.7, burstiness 1.52)."
+    },
+    {
+      "document_id": "sub02_bravo.pdf",
+      "status": "ok",
+      "skip_reason": null,
+      "total_integrity_risk": "HIGH",
+      "scores": {
+        "peer_similarity_percentage": 100.0,
+        "external_similarity_percentage": 0.0,
+        "ai_generated_probability": 49.8
+      },
+      "peer_matches": [
+        {
+          "matched_file": "sub03_charlie.docx",
+          "similarity_score": 1.0,
+          "jaccard": 1.0,
+          "match_type": "near-exact copy",
+          "query_passage": "Three numbers drive our case, and we will keep them visible all the way through. Only one in twenty four tier-2 households shops for groceries online today, against nearly one in seven in our metros, which is the headroom most people miss. Meanwhile we pay roughly 40% of metro shop rates for outlets outside the big six, and riders there earn 18% less.",
+          "matched_passage": "Three numbers drive our case, and we will keep them visible all the way through. Only one in twenty four tier-2 households shops for groceries online today, against nearly one in seven in our metros, which is the headroom most people miss. Meanwhile we pay roughly 40% of metro shop rates for outlets outside the big six, and riders there earn 18% less.",
+          "location": {
+            "query_page": 1,
+            "matched_paragraph": 2
+          },
+          "passage_count": 5
+        }
+      ],
+      "multimodal_matches": [],
+      "external_matches": [],
+      "excluded_boilerplate": [
+        {
+          "passage": "GreenCart Case Competition 2026: Problem Statement. GreenCart is a five-year-old online grocery delivery company operati",
+          "shared_with_n_files": 4
+        },
+        {
+          "passage": "Second, if it expands, which three cities should it enter first and why? Third, what operational changes are needed to m",
+          "shared_with_n_files": 4
+        }
+      ],
+      "ai_details": {
+        "perplexity": 198.6,
+        "burstiness": 0.8,
+        "note": ""
+      },
+      "explanations": "5 of 5 passages (100.0%) closely match other submissions: sub03_charlie.docx (5 passages, near-exact copy). 2 passages shared with up to 4 other files were treated as common template text and ignored. No external source matches. AI likelihood 49.8% (perplexity 198.6, burstiness 0.8)."
+    },
+    {
+      "document_id": "sub03_charlie.docx",
+      "status": "ok",
+      "skip_reason": null,
+      "total_integrity_risk": "HIGH",
+      "scores": {
+        "peer_similarity_percentage": 100.0,
+        "external_similarity_percentage": 0.0,
+        "ai_generated_probability": 26.7
+      },
+      "peer_matches": [
+        {
+          "matched_file": "sub02_bravo.pdf",
+          "similarity_score": 1.0,
+          "jaccard": 1.0,
+          "match_type": "near-exact copy",
+          "query_passage": "Three numbers drive our case, and we will keep them visible all the way through. Only one in twenty four tier-2 households shops for groceries online today, against nearly one in seven in our metros, which is the headroom most people miss. Meanwhile we pay roughly 40% of metro shop rates for outlets outside the big six, and riders there earn 18% less.",
+          "matched_passage": "Three numbers drive our case, and we will keep them visible all the way through. Only one in twenty four tier-2 households shops for groceries online today, against nearly one in seven in our metros, which is the headroom most people miss. Meanwhile we pay roughly 40% of metro shop rates for outlets outside the big six, and riders there earn 18% less.",
+          "location": {
+            "query_paragraph": 2,
+            "matched_page": 1
+          },
+          "passage_count": 5
+        }
+      ],
+      "multimodal_matches": [],
+      "external_matches": [],
+      "excluded_boilerplate": [
+        {
+          "passage": "GreenCart Case Competition 2026: Problem Statement. GreenCart is a five-year-old online grocery delivery company operati",
+          "shared_with_n_files": 4
+        },
+        {
+          "passage": "Second, if it expands, which three cities should it enter first and why? Third, what operational changes are needed to m",
+          "shared_with_n_files": 4
+        }
+      ],
+      "ai_details": {
+        "perplexity": 275.2,
+        "burstiness": 1.7,
+        "note": ""
+      },
+      "explanations": "5 of 5 passages (100.0%) closely match other submissions: sub02_bravo.pdf (5 passages, near-exact copy). 2 passages shared with up to 4 other files were treated as common template text and ignored. No external source matches. AI likelihood 26.7% (perplexity 275.2, burstiness 1.7)."
+    },
+    {
+      "document_id": "sub04_delta.docx",
+      "status": "ok",
+      "skip_reason": null,
+      "total_integrity_risk": "HIGH",
+      "scores": {
+        "peer_similarity_percentage": 80.0,
+        "external_similarity_percentage": 0.0,
+        "ai_generated_probability": 32.5
+      },
+      "peer_matches": [
+        {
+          "matched_file": "sub05_echo.docx",
+          "similarity_score": 0.95,
+          "jaccard": 0.48,
+          "match_type": "paraphrase / semantic match",
+          "query_passage": "Tier-2 expansion changes the cost line rather than the revenue line. A dark store in Bhubaneswar costs us 62 lakh to fit out against 1 crore 40 in Mumbai. Rent works out to 14 rupees per order versus 39 in the metros, which is the single biggest lever we found.",
+          "matched_passage": "What expansion into tier-2 cities alters is the cost line, not the revenue line. Fitting out a dark store in Bhubaneswar takes 62 lakh, compared with 1 crore 40 in Mumbai. Rent comes to 14 rupees per order there, against 39 in the metros, and that spread is the largest lever our analysis surfaced.",
+          "location": {
+            "query_paragraph": 3,
+            "matched_paragraph": 3
+          },
+          "passage_count": 4
+        }
+      ],
+      "multimodal_matches": [],
+      "external_matches": [],
+      "excluded_boilerplate": [
+        {
+          "passage": "GreenCart Case Competition 2026: Problem Statement. GreenCart is a five-year-old online grocery delivery company operati",
+          "shared_with_n_files": 4
+        },
+        {
+          "passage": "Second, if it expands, which three cities should it enter first and why? Third, what operational changes are needed to m",
+          "shared_with_n_files": 4
+        }
+      ],
+      "ai_details": {
+        "perplexity": 248.3,
+        "burstiness": 1.89,
+        "note": ""
+      },
+      "explanations": "4 of 5 passages (80.0%) closely match other submissions: sub05_echo.docx (4 passages, paraphrase / semantic match). 2 passages shared with up to 4 other files were treated as common template text and ignored. No external source matches. AI likelihood 32.5% (perplexity 248.3, burstiness 1.89)."
+    },
+    {
+      "document_id": "sub05_echo.docx",
+      "status": "ok",
+      "skip_reason": null,
+      "total_integrity_risk": "HIGH",
+      "scores": {
+        "peer_similarity_percentage": 80.0,
+        "external_similarity_percentage": 0.0,
+        "ai_generated_probability": 21.7
+      },
+      "peer_matches": [
+        {
+          "matched_file": "sub04_delta.docx",
+          "similarity_score": 0.95,
+          "jaccard": 0.48,
+          "match_type": "paraphrase / semantic match",
+          "query_passage": "What expansion into tier-2 cities alters is the cost line, not the revenue line. Fitting out a dark store in Bhubaneswar takes 62 lakh, compared with 1 crore 40 in Mumbai. Rent comes to 14 rupees per order there, against 39 in the metros, and that spread is the largest lever our analysis surfaced.",
+          "matched_passage": "Tier-2 expansion changes the cost line rather than the revenue line. A dark store in Bhubaneswar costs us 62 lakh to fit out against 1 crore 40 in Mumbai. Rent works out to 14 rupees per order versus 39 in the metros, which is the single biggest lever we found.",
+          "location": {
+            "query_paragraph": 3,
+            "matched_paragraph": 3
+          },
+          "passage_count": 4
+        }
+      ],
+      "multimodal_matches": [],
+      "external_matches": [],
+      "excluded_boilerplate": [
+        {
+          "passage": "GreenCart Case Competition 2026: Problem Statement. GreenCart is a five-year-old online grocery delivery company operati",
+          "shared_with_n_files": 4
+        },
+        {
+          "passage": "Second, if it expands, which three cities should it enter first and why? Third, what operational changes are needed to m",
+          "shared_with_n_files": 4
+        }
+      ],
+      "ai_details": {
+        "perplexity": 298.6,
+        "burstiness": 1.59,
+        "note": ""
+      },
+      "explanations": "4 of 5 passages (80.0%) closely match other submissions: sub04_delta.docx (4 passages, paraphrase / semantic match). 2 passages shared with up to 4 other files were treated as common template text and ignored. No external source matches. AI likelihood 21.7% (perplexity 298.6, burstiness 1.59)."
+    },
+    {
+      "document_id": "sub06_foxtrot.pdf",
+      "status": "ok",
+      "skip_reason": null,
+      "total_integrity_risk": "MEDIUM",
+      "scores": {
+        "peer_similarity_percentage": 0.0,
+        "external_similarity_percentage": 0.0,
+        "ai_generated_probability": 76.3
+      },
+      "peer_matches": [],
+      "multimodal_matches": [],
+      "external_matches": [],
+      "excluded_boilerplate": [],
+      "ai_details": {
+        "perplexity": 112.2,
+        "burstiness": 0.65,
+        "note": ""
+      },
+      "explanations": "No other submission matches (5 passages checked). No external source matches. AI likelihood 76.3% (perplexity 112.2, burstiness 0.65)."
+    },
+    {
+      "document_id": "sub07_golf.pdf",
+      "status": "ok",
+      "skip_reason": null,
+      "total_integrity_risk": "LOW",
+      "scores": {
+        "peer_similarity_percentage": 0.0,
+        "external_similarity_percentage": 0.0,
+        "ai_generated_probability": 22.9
+      },
+      "peer_matches": [],
+      "multimodal_matches": [],
+      "external_matches": [],
+      "excluded_boilerplate": [],
+      "ai_details": {
+        "perplexity": 292.9,
+        "burstiness": 1.07,
+        "note": ""
+      },
+      "explanations": "No other submission matches (4 passages checked). No external source matches. AI likelihood 22.9% (perplexity 292.9, burstiness 1.07)."
+    },
+    {
+      "document_id": "sub08_hotel.docx",
+      "status": "ok",
+      "skip_reason": null,
+      "total_integrity_risk": "MEDIUM",
+      "scores": {
+        "peer_similarity_percentage": 0.0,
+        "external_similarity_percentage": 20.0,
+        "ai_generated_probability": 66.2
+      },
+      "peer_matches": [],
+      "multimodal_matches": [],
+      "external_matches": [
+        {
+          "matched_file": "quick_commerce.txt",
+          "similarity_score": 0.9,
+          "jaccard": 0.52,
+          "match_type": "paraphrase / semantic match",
+          "query_passage": "Quick commerce is a retail model in which online orders of groceries and household goods are delivered to customers within roughly thirty minutes. The format originated in India in the early 2020s and spread rapidly in dense urban neighbourhoods where orders can be fulfilled from small local warehouses positioned inside residential areas.",
+          "matched_passage": "Quick commerce is a retail model in which online orders of groceries and household goods are delivered to customers within roughly thirty minutes. The format originated in India in the early 2020s and spread rapidly in dense urban neighbourhoods where orders can be fulfilled from small local warehouses positioned inside residential areas.Operators run networks of these small warehouses, commonly called dark stores, each holding a curated stock of two to four thousand fast-moving items. Because a store serves only a one to three kilometre radius, delivery routes are short and predictable. Riders typically complete a delivery in ten to fifteen minutes, and most platforms promise a window of thirty minutes or less.",
+          "location": {
+            "query_paragraph": 2
+          },
+          "passage_count": 1
+        }
+      ],
+      "excluded_boilerplate": [],
+      "ai_details": {
+        "perplexity": 187.0,
+        "burstiness": 0.59,
+        "note": ""
+      },
+      "explanations": "No other submission matches (5 passages checked). An external source matches: quick_commerce.txt (0.9). AI likelihood 66.2% (perplexity 187.0, burstiness 0.59)."
+    },
+    {
+      "document_id": "sub09_india.docx",
+      "status": "ok",
+      "skip_reason": null,
+      "total_integrity_risk": "LOW",
+      "scores": {
+        "peer_similarity_percentage": 0.0,
+        "external_similarity_percentage": 0.0,
+        "ai_generated_probability": 40.8
+      },
+      "peer_matches": [],
+      "multimodal_matches": [],
+      "external_matches": [],
+      "excluded_boilerplate": [],
+      "ai_details": {
+        "perplexity": 232.6,
+        "burstiness": 0.83,
+        "note": ""
+      },
+      "explanations": "No other submission matches (5 passages checked). No external source matches. AI likelihood 40.8% (perplexity 232.6, burstiness 0.83)."
+    },
+    {
+      "document_id": "sub10_juliet.pdf",
+      "status": "skipped",
+      "skip_reason": "empty file",
+      "total_integrity_risk": "UNPROCESSED",
+      "scores": {
+        "peer_similarity_percentage": null,
+        "external_similarity_percentage": null,
+        "ai_generated_probability": null
+      },
+      "peer_matches": [],
+      "multimodal_matches": [],
+      "external_matches": [],
+      "excluded_boilerplate": [],
+      "ai_details": {
+        "perplexity": null,
+        "burstiness": null,
+        "note": "skipped"
+      },
+      "explanations": "File could not be processed: empty file."
+    }
+  ],
+  "matrix": {
+    "pitch01_kilo.mp4 || pitch02_lima.mp4": 0.6187223196029663,
+    "pitch01_kilo.mp4 || sub01_alpha.pdf": 0.9800209403038025,
+    "pitch01_kilo.mp4 || sub02_bravo.pdf": 0.6071567535400391,
+    "pitch01_kilo.mp4 || sub03_charlie.docx": 0.6071567535400391,
+    "pitch01_kilo.mp4 || sub04_delta.docx": 0.5925882458686829,
+    "pitch01_kilo.mp4 || sub05_echo.docx": 0.5925882458686829,
+    "pitch01_kilo.mp4 || sub06_foxtrot.pdf": 0.4570538401603699,
+    "pitch01_kilo.mp4 || sub07_golf.pdf": 0.40872570872306824,
+    "pitch01_kilo.mp4 || sub08_hotel.docx": 0.5347464084625244,
+    "pitch01_kilo.mp4 || sub09_india.docx": 0.4363721013069153,
+    "pitch02_lima.mp4 || pitch01_kilo.mp4": 0.6187223196029663,
+    "pitch02_lima.mp4 || sub01_alpha.pdf": 0.7042356729507446,
+    "pitch02_lima.mp4 || sub02_bravo.pdf": 0.7042356729507446,
+    "pitch02_lima.mp4 || sub03_charlie.docx": 0.7042356729507446,
+    "pitch02_lima.mp4 || sub04_delta.docx": 0.7042356729507446,
+    "pitch02_lima.mp4 || sub05_echo.docx": 0.7042356729507446,
+    "pitch02_lima.mp4 || sub06_foxtrot.pdf": 0.5412230491638184,
+    "pitch02_lima.mp4 || sub07_golf.pdf": 0.45554158091545105,
+    "pitch02_lima.mp4 || sub08_hotel.docx": 0.5666295289993286,
+    "pitch02_lima.mp4 || sub09_india.docx": 0.6086963415145874,
+    "sub01_alpha.pdf || pitch01_kilo.mp4": 0.9800209403038025,
+    "sub01_alpha.pdf || pitch02_lima.mp4": 0.7042356729507446,
+    "sub01_alpha.pdf || sub02_bravo.pdf": 1.0,
+    "sub01_alpha.pdf || sub03_charlie.docx": 1.0,
+    "sub01_alpha.pdf || sub04_delta.docx": 1.0,
+    "sub01_alpha.pdf || sub05_echo.docx": 1.0,
+    "sub01_alpha.pdf || sub06_foxtrot.pdf": 0.5447591543197632,
+    "sub01_alpha.pdf || sub07_golf.pdf": 0.509171724319458,
+    "sub01_alpha.pdf || sub08_hotel.docx": 0.5528347492218018,
+    "sub01_alpha.pdf || sub09_india.docx": 0.6167886853218079,
+    "sub02_bravo.pdf || pitch01_kilo.mp4": 0.6071567535400391,
+    "sub02_bravo.pdf || pitch02_lima.mp4": 0.7042356729507446,
+    "sub02_bravo.pdf || sub01_alpha.pdf": 1.0,
+    "sub02_bravo.pdf || sub03_charlie.docx": 1.000000238418579,
+    "sub02_bravo.pdf || sub04_delta.docx": 1.0,
+    "sub02_bravo.pdf || sub05_echo.docx": 1.0,
+    "sub02_bravo.pdf || sub06_foxtrot.pdf": 0.6237255334854126,
+    "sub02_bravo.pdf || sub07_golf.pdf": 0.5155665874481201,
+    "sub02_bravo.pdf || sub08_hotel.docx": 0.619547963142395,
+    "sub02_bravo.pdf || sub09_india.docx": 0.675674319267273,
+    "sub03_charlie.docx || pitch01_kilo.mp4": 0.6071567535400391,
+    "sub03_charlie.docx || pitch02_lima.mp4": 0.7042356729507446,
+    "sub03_charlie.docx || sub01_alpha.pdf": 1.0,
+    "sub03_charlie.docx || sub02_bravo.pdf": 1.000000238418579,
+    "sub03_charlie.docx || sub04_delta.docx": 1.0,
+    "sub03_charlie.docx || sub05_echo.docx": 1.0,
+    "sub03_charlie.docx || sub06_foxtrot.pdf": 0.6237255334854126,
+    "sub03_charlie.docx || sub07_golf.pdf": 0.5155665874481201,
+    "sub03_charlie.docx || sub08_hotel.docx": 0.619547963142395,
+    "sub03_charlie.docx || sub09_india.docx": 0.675674319267273,
+    "sub04_delta.docx || pitch01_kilo.mp4": 0.5925882458686829,
+    "sub04_delta.docx || pitch02_lima.mp4": 0.7042356729507446,
+    "sub04_delta.docx || sub01_alpha.pdf": 1.0,
+    "sub04_delta.docx || sub02_bravo.pdf": 1.0,
+    "sub04_delta.docx || sub03_charlie.docx": 1.0,
+    "sub04_delta.docx || sub05_echo.docx": 1.0,
+    "sub04_delta.docx || sub06_foxtrot.pdf": 0.5606277585029602,
+    "sub04_delta.docx || sub07_golf.pdf": 0.6395207643508911,
+    "sub04_delta.docx || sub08_hotel.docx": 0.5471879243850708,
+    "sub04_delta.docx || sub09_india.docx": 0.6101377606391907,
+    "sub05_echo.docx || pitch01_kilo.mp4": 0.5925882458686829,
+    "sub05_echo.docx || pitch02_lima.mp4": 0.7042356729507446,
+    "sub05_echo.docx || sub01_alpha.pdf": 1.0,
+    "sub05_echo.docx || sub02_bravo.pdf": 1.0,
+    "sub05_echo.docx || sub03_charlie.docx": 1.0,
+    "sub05_echo.docx || sub04_delta.docx": 1.0,
+    "sub05_echo.docx || sub06_foxtrot.pdf": 0.566348135471344,
+    "sub05_echo.docx || sub07_golf.pdf": 0.6414137482643127,
+    "sub05_echo.docx || sub08_hotel.docx": 0.5305241346359253,
+    "sub05_echo.docx || sub09_india.docx": 0.6349664926528931,
+    "sub06_foxtrot.pdf || pitch01_kilo.mp4": 0.4570538401603699,
+    "sub06_foxtrot.pdf || pitch02_lima.mp4": 0.5412230491638184,
+    "sub06_foxtrot.pdf || sub01_alpha.pdf": 0.5447591543197632,
+    "sub06_foxtrot.pdf || sub02_bravo.pdf": 0.6237255334854126,
+    "sub06_foxtrot.pdf || sub03_charlie.docx": 0.6237255334854126,
+    "sub06_foxtrot.pdf || sub04_delta.docx": 0.5606277585029602,
+    "sub06_foxtrot.pdf || sub05_echo.docx": 0.566348135471344,
+    "sub06_foxtrot.pdf || sub07_golf.pdf": 0.5544122457504272,
+    "sub06_foxtrot.pdf || sub08_hotel.docx": 0.47784310579299927,
+    "sub06_foxtrot.pdf || sub09_india.docx": 0.5518926382064819,
+    "sub07_golf.pdf || pitch01_kilo.mp4": 0.40872570872306824,
+    "sub07_golf.pdf || pitch02_lima.mp4": 0.45554158091545105,
+    "sub07_golf.pdf || sub01_alpha.pdf": 0.509171724319458,
+    "sub07_golf.pdf || sub02_bravo.pdf": 0.5155665874481201,
+    "sub07_golf.pdf || sub03_charlie.docx": 0.5155665874481201,
+    "sub07_golf.pdf || sub04_delta.docx": 0.6395207643508911,
+    "sub07_golf.pdf || sub05_echo.docx": 0.6414137482643127,
+    "sub07_golf.pdf || sub06_foxtrot.pdf": 0.5544122457504272,
+    "sub07_golf.pdf || sub08_hotel.docx": 0.48872947692871094,
+    "sub07_golf.pdf || sub09_india.docx": 0.5262082815170288,
+    "sub08_hotel.docx || pitch01_kilo.mp4": 0.5347464084625244,
+    "sub08_hotel.docx || pitch02_lima.mp4": 0.5666295289993286,
+    "sub08_hotel.docx || sub01_alpha.pdf": 0.5528347492218018,
+    "sub08_hotel.docx || sub02_bravo.pdf": 0.619547963142395,
+    "sub08_hotel.docx || sub03_charlie.docx": 0.619547963142395,
+    "sub08_hotel.docx || sub04_delta.docx": 0.5471879243850708,
+    "sub08_hotel.docx || sub05_echo.docx": 0.5305241346359253,
+    "sub08_hotel.docx || sub06_foxtrot.pdf": 0.47784310579299927,
+    "sub08_hotel.docx || sub07_golf.pdf": 0.48872947692871094,
+    "sub08_hotel.docx || sub09_india.docx": 0.5382723808288574,
+    "sub09_india.docx || pitch01_kilo.mp4": 0.4363721013069153,
+    "sub09_india.docx || pitch02_lima.mp4": 0.6086963415145874,
+    "sub09_india.docx || sub01_alpha.pdf": 0.6167886853218079,
+    "sub09_india.docx || sub02_bravo.pdf": 0.675674319267273,
+    "sub09_india.docx || sub03_charlie.docx": 0.675674319267273,
+    "sub09_india.docx || sub04_delta.docx": 0.6101377606391907,
+    "sub09_india.docx || sub05_echo.docx": 0.6349664926528931,
+    "sub09_india.docx || sub06_foxtrot.pdf": 0.5518926382064819,
+    "sub09_india.docx || sub07_golf.pdf": 0.5262082815170288,
+    "sub09_india.docx || sub08_hotel.docx": 0.5382723808288574
+  }
+}

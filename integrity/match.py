@@ -35,7 +35,16 @@ def build_index(vectors):
 def find_matches(query_chunks, query_vecs, target_chunks, target_index,
                  exclude_same_doc=True, boilerplate=True):
     results = {}
-    k = min(SEARCH_K, len(target_chunks))
+    if exclude_same_doc and target_chunks:
+        # fetch enough neighbours that removing same-doc hits still leaves
+        # SEARCH_K candidates from other documents (large single docs would
+        # otherwise fill the whole top-k themselves and hide real matches)
+        per_doc = {}
+        for t in target_chunks:
+            per_doc[t["doc_id"]] = per_doc.get(t["doc_id"], 0) + 1
+        k = min(len(target_chunks), SEARCH_K + max(per_doc.values()))
+    else:
+        k = min(SEARCH_K, len(target_chunks))
     if k == 0:
         for c in query_chunks:
             results[c["chunk_id"]] = {"is_boilerplate": False, "shared_with_n_files": 0,
@@ -51,7 +60,12 @@ def find_matches(query_chunks, query_vecs, target_chunks, target_index,
         is_boiler = boilerplate and len(boiler_docs) >= BOILERPLATE_MIN_DOCS
         best = {}
         for t, s in neighbours:
-            if s >= MATCH_THRESHOLD and s > best.get(t["doc_id"], (-1,))[0]:
+            if s < MATCH_THRESHOLD:
+                continue
+            # store (chunk, score); compare against the stored SCORE — a second
+            # >=threshold neighbour from the same doc must not crash or override
+            prev = best.get(t["doc_id"])
+            if prev is None or s > prev[1]:
                 best[t["doc_id"]] = (t, s)
         results[chunk["chunk_id"]] = {
             "is_boilerplate": is_boiler,

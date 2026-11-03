@@ -1,0 +1,21 @@
+{
+  "document_id": "sub07_golf.pdf",
+  "status": "ok",
+  "skip_reason": null,
+  "total_integrity_risk": "LOW",
+  "scores": {
+    "peer_similarity_percentage": 0.0,
+    "external_similarity_percentage": 0.0,
+    "ai_generated_probability": 22.9
+  },
+  "peer_matches": [],
+  "multimodal_matches": [],
+  "external_matches": [],
+  "excluded_boilerplate": [],
+  "ai_details": {
+    "perplexity": 292.9,
+    "burstiness": 1.07,
+    "note": ""
+  },
+  "explanations": "No other submission matches (4 passages checked). No external source matches. AI likelihood 22.9% (perplexity 292.9, burstiness 1.07)."
+}

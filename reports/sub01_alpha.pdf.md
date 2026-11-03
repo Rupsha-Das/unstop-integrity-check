@@ -4,7 +4,7 @@
 |---|---|---|
 | 20.0 | 0.0 | 17.6 |
 
-**Summary:** 1 of 7 passages (14.3%) closely match other submissions: pitch01_kilo.mp4 (1 passage, near-exact copy). The match against pitch01_kilo.mp4 (video) crosses modality (speech vs writing). 2 passages shared with up to 4 other files were treated as common template text and ignored. No external source matches. AI likelihood 18% (perplexity 317.7, burstiness 1.52).
+**Summary:** 1 of 5 passages (20.0%) closely match other submissions: pitch01_kilo.mp4 (1 passage, near-exact copy). The match against pitch01_kilo.mp4 (video) crosses modality (speech vs writing). 2 passages shared with up to 4 other files were treated as common template text and ignored. No external source matches. AI likelihood 17.6% (perplexity 317.7, burstiness 1.52).
 
 ## Cross-modal matches
 
