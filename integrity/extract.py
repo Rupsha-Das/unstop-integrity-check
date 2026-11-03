@@ -23,8 +23,8 @@ def _get_whisper():
 
 
 def extract_pdf(path):
-    import fitz
-    doc = fitz.open(path)
+    import pymupdf
+    doc = pymupdf.open(path)
     npages = doc.page_count
     # lines per page: (y0, y1, text) sorted top-down
     pages = []
